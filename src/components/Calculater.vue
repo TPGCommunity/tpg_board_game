@@ -9,11 +9,13 @@ const blueTop = ref(0);
 const redTop = ref(0);
 const greenTop = ref(0);
 
-const countBlue = computed(() => "Blue:"+blue.value);
-const countRed = computed(() => "Red:"+red.value);
-const countGreen = computed(() => "Green:"+green.value);
+const blueCount = computed(() => "Blue:" + blue.value);
+const redCount = computed(() => "Red:" + red.value);
+const greenCount = computed(() => "Green:" + green.value);
 
 const init = ref(false)
+
+
 
 const finishInit = () => {
     init.value = true;
@@ -63,9 +65,9 @@ const finishInit = () => {
     </div>
 
     <div class="calculater" v-if="init == true">
-        {{ countBlue }}
-        {{ countRed }}
-        {{ countGreen }}
+        {{ blueCount }}
+        {{ redCount }}
+        {{ greenCount }}
     </div>
 
 </template>
