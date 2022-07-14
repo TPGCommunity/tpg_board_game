@@ -3,12 +3,15 @@
 // Check out https://vuejs.org/api/sfc-script-setup.html#script-setup
 import HelloWorld from './components/HelloWorld.vue';
 import Calculater from './components/Calculater.vue';
+import Test from './components/Test.vue';
+
 </script>
 
 <template>
-  <img alt="Vue logo" src="./assets/logo.png" />
-  <HelloWorld msg="Hello Vue 3 + Vite" />
+  <!--<img alt="Vue logo" src="./assets/logo.png" />-->
+  <!--<HelloWorld msg="Hello Vue 3 + Vite" />-->
   <Calculater />
+  <!--<Test />-->
 </template>
 
 <style>
