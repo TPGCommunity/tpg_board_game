@@ -19,7 +19,6 @@ const blueList = ref([]);
 const redList = ref([]);
 const greenList = ref([]);
 
-const blueChecked = ref([]);
 
 const finishInit = () => {
     init.value = true;
@@ -116,7 +115,7 @@ const calc = (list) => {
     <div class="calculater" v-if="init == true">
         <div class="cards-list">
             <div class="blue">
-                <strong>{{ blueCount }}</strong>
+                <h2 class="blueCount">{{ blueCount }}</h2>
                 <div class="blueButtons">
                     <div>
                         <button @click="add('blue', '+', 1)">+1</button>
@@ -145,7 +144,7 @@ const calc = (list) => {
                 </div>
             </div>
             <div class="red">
-                <strong>{{ redCount }}</strong>
+                <h2 class="redCount">{{ redCount }}</h2>
                 <div class="redButtons">
                     <div>
                         <button @click="add('red', '+', 1)">+1</button>
@@ -174,7 +173,7 @@ const calc = (list) => {
                 </div>
             </div>
             <div class="green">
-                <strong>{{ greenCount }}</strong>
+                <h2 class="greenCount">{{ greenCount }}</h2>
                 <div class="greenButtons">
                     <div>
                         <button @click="add('green', '+', 1)">+1</button>
@@ -216,16 +215,26 @@ const calc = (list) => {
 
 .cards-list .blue {
     box-sizing: border-box;
-    padding: 40px 80px;
+    width: 31%;
 }
 
 .cards-list .red {
     box-sizing: border-box;
-    padding: 40px 80px;
+    width: 31%;
 }
 
 .cards-list .green {
     box-sizing: border-box;
-    padding: 40px 80px;
+    width: 31%;
+}
+
+.blueCount {
+    color: blue
+}
+.redCount {
+    color: red
+}
+.greenCount {
+    color: green
 }
 </style>
