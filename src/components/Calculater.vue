@@ -2,26 +2,26 @@
 import { ref, computed } from "vue";
 
 const blue = ref(0);
-const red = ref(0);
+const yellow = ref(0);
 const green = ref(0);
 
 const blueTop = ref(7);
-const redTop = ref(8);
-const greenTop = ref(9);
+const yellowTop = ref(7);
+const greenTop = ref(7);
 
 const blueCount = computed(() => "Blue:" + blue.value);
-const redCount = computed(() => "Red:" + red.value);
+const yellowCount = computed(() => "Yellow:" + yellow.value);
 const greenCount = computed(() => "Green:" + green.value);
 
 const init = ref(false)
 
 const blueList = ref([]);
-const redList = ref([]);
+const yellowList = ref([]);
 const greenList = ref([]);
 
 
 const blueBomb = ref(false);
-const redBomb = ref(false);
+const yellowBomb = ref(false);
 const greenBomb = ref(false);
 const bombList = ref([0, 0]);
 const bombError = ref(false);
@@ -31,11 +31,11 @@ const bombError = ref(false);
 const finishInit = () => {
     init.value = true;
     blue.value += blueTop.value
-    red.value += redTop.value
+    yellow.value += yellowTop.value
     green.value += greenTop.value
 
     blueList.value = [["top:", blue.value]]
-    redList.value = [["top:", red.value]]
+    yellowList.value = [["top:", yellow.value]]
     greenList.value = [["top:", green.value]]
 }
 
@@ -43,9 +43,9 @@ const add = (color, operator, num) => {
     if (color == "blue") {
         blueList.value.push([operator, num])
         blue.value = calc(blueList.value)
-    } else if (color == "red") {
-        redList.value.push([operator, num])
-        red.value = calc(redList.value)
+    } else if (color == "yellow") {
+        yellowList.value.push([operator, num])
+        yellow.value = calc(yellowList.value)
     } else if (color == "green") {
         greenList.value.push([operator, num])
         green.value = calc(greenList.value)
@@ -56,9 +56,9 @@ const deleteLast = (color) => {
     if (color == "blue") {
         blueList.value.pop()
         blue.value = calc(blueList.value)
-    } else if (color == "red") {
-        redList.value.pop()
-        red.value = calc(redList.value)
+    } else if (color == "yellow") {
+        yellowList.value.pop()
+        yellow.value = calc(yellowList.value)
     } else if (color == "green") {
         greenList.value.pop()
         green.value = calc(greenList.value)
@@ -67,10 +67,10 @@ const deleteLast = (color) => {
 
 const reset = () => {
     blueList.value = [["top:", blueTop.value]]
-    redList.value = [["top:", redTop.value]]
+    yellowList.value = [["top:", yellowTop.value]]
     greenList.value = [["top:", greenTop.value]]
     blue.value = calc(blueList.value)
-    red.value = calc(redList.value)
+    yellow.value = calc(yellowList.value)
     green.value = calc(greenList.value)
 }
 
@@ -108,14 +108,14 @@ const bomb = (color) => {
             }
             blue.value = calc(blueList.value);
             blueBomb.value = false;
-        } else if (color == "red") {
+        } else if (color == "yellow") {
             for (const n of bombList.value) {
                 if (n > 0) {
-                    redList.value.splice(n, 1);
+                    yellowList.value.splice(n, 1);
                 }
             }
-            red.value = calc(redList.value);
-            redBomb.value = false;
+            yellow.value = calc(yellowList.value);
+            yellowBomb.value = false;
         } else if (color == "green") {
             for (const n of bombList.value) {
                 if (n > 0) {
@@ -135,7 +135,7 @@ const bomb = (color) => {
     <div class="Top" v-if="init == false">
         <h2>TOP CARD</h2>
         <div>
-            <label for="blueTop">BLUE</label>
+            <label for="blueTop">青</label>
             <select name="blueTop" id="blueTop" v-model.number="blueTop">
                 <option value=7>7</option>
                 <option value=8>8</option>
@@ -144,8 +144,8 @@ const bomb = (color) => {
                 <option value=11>11</option>
                 <option value=12>12</option>
             </select>--
-            <label for="redTop">RED</label>
-            <select name="redTop" id="redTop" v-model.number="redTop">
+            <label for="yellowTop">黄</label>
+            <select name="yellowTop" id="yellowTop" v-model.number="yellowTop">
                 <option value=7>7</option>
                 <option value=8>8</option>
                 <option value=9>9</option>
@@ -153,7 +153,7 @@ const bomb = (color) => {
                 <option value=11>11</option>
                 <option value=12>12</option>
             </select>--
-            <label for="greenTop">GREEN</label>
+            <label for="greenTop">緑</label>
             <select name="greenTop" id="greenTop" v-model.number="greenTop">
                 <option value=7>7</option>
                 <option value=8>8</option>
@@ -166,16 +166,16 @@ const bomb = (color) => {
         <button @click="finishInit">決定</button>
     </div>
 
-    <div v-if="init == true">
-        <button @click="init = false; blue = 0; red = 0; green = 0">トップカードからを設定しなおす</button>
+    <div v-if="init == true && blueBomb == false && yellowBomb == false && greenBomb == false">
+        <button @click="init = false; blue = 0; yellow = 0; green = 0">トップカードからを設定しなおす</button>
         <br>
         <button @click="reset">トップカード以外をはじめから入力する</button>
     </div>
 
-    <div class="calculater" v-if="init == true && blueBomb == false && redBomb == false && greenBomb == false">
+    <div class="calculater" v-if="init == true && blueBomb == false && yellowBomb == false && greenBomb == false">
         <div class="colors">
             <div class="blue">
-                <h2 class="blueCount">{{ blueCount }}</h2>--<button @click="blueBomb = true">Bomb</button>
+                <h2 class="blueCount">{{ blueCount }}</h2>--<button @click="blueBomb = true">逆鱗</button>
                 <br>
                 <br>
                 <div class="blue-button">
@@ -209,43 +209,43 @@ const bomb = (color) => {
                     <div>{{ blueCard[0] }}{{ blueCard[1] }}</div>
                 </div>
             </div>
-            <div class="red">
-                <h2 class="redCount">{{ redCount }}</h2>--<button @click="redBomb = true">Bomb</button>
+            <div class="yellow">
+                <h2 class="yellowCount">{{ yellowCount }}</h2>--<button @click="yellowBomb = true">逆鱗</button>
                 <br>
                 <br>
-                <div class="red-button">
+                <div class="yellow-button">
                     <div>
-                        <button @click="add('red', '+', 1)">+1</button>
-                        <button @click="add('red', '+', 2)">+2</button>
-                        <button @click="add('red', '+', 3)">+3</button>
-                        <button @click="add('red', '+', 4)">+4</button>
+                        <button @click="add('yellow', '+', 1)">+1</button>
+                        <button @click="add('yellow', '+', 2)">+2</button>
+                        <button @click="add('yellow', '+', 3)">+3</button>
+                        <button @click="add('yellow', '+', 4)">+4</button>
                     </div>
                     <div>
-                        <button @click="add('red', '+', 5)">+5</button>
-                        <button @click="add('red', '+', 6)">+6</button>
-                        <button @click="add('red', '+', 10)">+10</button>
+                        <button @click="add('yellow', '+', 5)">+5</button>
+                        <button @click="add('yellow', '+', 6)">+6</button>
+                        <button @click="add('yellow', '+', 10)">+10</button>
                     </div>
                     <div>
-                        <button @click="add('red', '-', 1)">-1</button>
-                        <button @click="add('red', '-', 2)">-2</button>
-                        <button @click="add('red', 'x', 2)">x2</button>
-                        <button @click="add('red', 'x', 3)">x3</button>
-                        <button @click="add('red', 'x', 5)">x5</button>
+                        <button @click="add('yellow', '-', 1)">-1</button>
+                        <button @click="add('yellow', '-', 2)">-2</button>
+                        <button @click="add('yellow', 'x', 2)">x2</button>
+                        <button @click="add('yellow', 'x', 3)">x3</button>
+                        <button @click="add('yellow', 'x', 5)">x5</button>
                     </div>
                     <br>
                     <br>
                     <div>
-                        <button @click="deleteLast('red')">ひとつ戻す</button>
+                        <button @click="deleteLast('yellow')">ひとつ戻す</button>
                     </div>
                 </div>
                 <br>
                 <br>
-                <div v-for="redCard in redList" class="red-list">
-                    <div>{{ redCard[0] }}{{ redCard[1] }}</div>
+                <div v-for="yellowCard in yellowList" class="yellow-list">
+                    <div>{{ yellowCard[0] }}{{ yellowCard[1] }}</div>
                 </div>
             </div>
             <div class="green">
-                <h2 class="greenCount">{{ greenCount }}</h2>--<button @click="greenBomb = true">Bomb</button>
+                <h2 class="greenCount">{{ greenCount }}</h2>--<button @click="greenBomb = true">逆鱗</button>
                 <br>
                 <br>
                 <div class="green-button">
@@ -284,7 +284,7 @@ const bomb = (color) => {
 
     <div class="bombs">
         <div class="blue-bomb" v-if="blueBomb == true">
-            <h2 class="blue-bomb-t">Blue Bomb</h2>
+            <h2 class="blue-bomb-t">逆鱗　青</h2>
             <div v-for="(blueCard, index) in blueList">
                 {{ index }}:{{ blueCard[0] }}{{ blueCard[1] }}
             </div>
@@ -303,36 +303,36 @@ const bomb = (color) => {
                     </option>
                     <option value=0>選ばない</option>
                 </select>
-                <button @click="bomb('blue')">Bomb!</button>
-                <button @click="blueBomb = false; bombList = [0, 0]">Bombをキャンセル</button>
+                <button @click="bomb('blue')">逆鱗!</button>
+                <button @click="blueBomb = false; bombList = [0, 0]">逆鱗をキャンセル</button>
             </div>
         </div>
-        <div class="red-bomb" v-if="redBomb == true">
-            <h2 class="red-bomb-t">Red Bomb</h2>
-            <div v-for="(redCard, index) in redList">
-                {{ index }}:{{ redCard[0] }}{{ redCard[1] }}
+        <div class="yellow-bomb" v-if="yellowBomb == true">
+            <h2 class="yellow-bomb-t">逆鱗　黄</h2>
+            <div v-for="(yellowCard, index) in yellowList">
+                {{ index }}:{{ yellowCard[0] }}{{ yellowCard[1] }}
             </div>
             <div>取り除くカードの番号を２つまで選択（トップカードは選択できません）</div>
             <div v-if="bombError == true" class="bomb-error"><strong>同じカードを２回選んでいます！</strong></div>
             <div>
-                <select name="redBomb1" id="redBomb1" v-model.number="bombList[0]">
-                    <option v-for="(b, i) in redList" v-bind:value="i">
+                <select name="yellowBomb1" id="yellowBomb1" v-model.number="bombList[0]">
+                    <option v-for="(b, i) in yellowList" v-bind:value="i">
                         <div v-if="i > 0">{{ i }}:{{ b[0] }}{{ b[1] }}</div>
                     </option>
                     <option value=0>選ばない</option>
                 </select>
-                <select name="redBomb2" id="redBomb2" v-model.number="bombList[1]">
-                    <option v-for="(b, i) in redList" v-bind:value="i">
+                <select name="yellowBomb2" id="yellowBomb2" v-model.number="bombList[1]">
+                    <option v-for="(b, i) in yellowList" v-bind:value="i">
                         <div v-if="i > 0">{{ i }}:{{ b[0] }}{{ b[1] }}</div>
                     </option>
                     <option value=0>選ばない</option>
                 </select>
-                <button @click="bomb('red')">Bomb!</button>
-                <button @click="redBomb = false; bombList = [0, 0]">Bombをキャンセル</button>
+                <button @click="bomb('yellow')">逆鱗!</button>
+                <button @click="yellowBomb = false; bombList = [0, 0]">逆鱗をキャンセル</button>
             </div>
         </div>
         <div class="green-bomb" v-if="greenBomb == true">
-            <h2 class="green-bomb-t">Green Bomb</h2>
+            <h2 class="green-bomb-t">逆鱗　緑</h2>
             <div v-for="(greenCard, index) in greenList">
                 {{ index }}:{{ greenCard[0] }}{{ greenCard[1] }}
             </div>
@@ -351,8 +351,8 @@ const bomb = (color) => {
                     </option>
                     <option value=0>選ばない</option>
                 </select>
-                <button @click="bomb('green')">Bomb!</button>
-                <button @click="greenBomb = false; bombList = [0, 0]">Bombをキャンセル</button>
+                <button @click="bomb('green')">逆鱗!</button>
+                <button @click="greenBomb = false; bombList = [0, 0]">逆鱗をキャンセル</button>
             </div>
         </div>
     </div>
@@ -370,7 +370,7 @@ const bomb = (color) => {
     width: 31%;
 }
 
-.colors .red {
+.colors .yellow {
     box-sizing: border-box;
     width: 31%;
 }
@@ -383,9 +383,11 @@ const bomb = (color) => {
 .blueCount {
     color: blue
 }
-.redCount {
-    color: red
+
+.yellowCount {
+    color: rgb(255, 208, 0)
 }
+
 .greenCount {
     color: green
 }
@@ -393,9 +395,11 @@ const bomb = (color) => {
 .blue-bomb-t {
     color: blue;
 }
-.red-bomb-t {
-    color: red;
+
+.yellow-bomb-t {
+    color: rgb(255, 208, 0);
 }
+
 .green-bomb-t {
     color: green;
 }
