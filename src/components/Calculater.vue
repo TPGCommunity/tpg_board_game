@@ -19,7 +19,9 @@ const blueList = ref([]);
 const redList = ref([]);
 const greenList = ref([]);
 
-const blueChecked = ref([]);
+const blueBomb = ref(false);
+const redBomb = ref(false);
+const greenBomb = ref(false);
 
 const finishInit = () => {
     init.value = true;
