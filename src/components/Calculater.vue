@@ -188,14 +188,16 @@ const bomb = (color) => {
                     <div>
                         <button @click="add('blue', '+', 5)">+5</button>
                         <button @click="add('blue', '+', 6)">+6</button>
+                        <button @click="add('blue', '+', 7)">+7</button>
                         <button @click="add('blue', '+', 10)">+10</button>
+                        <button @click="add('blue', '+', 30)">+30</button>
                     </div>
                     <div>
                         <button @click="add('blue', '-', 1)">-1</button>
-                        <button @click="add('blue', '-', 2)">-2</button>
                         <button @click="add('blue', 'x', 2)">x2</button>
                         <button @click="add('blue', 'x', 3)">x3</button>
                         <button @click="add('blue', 'x', 5)">x5</button>
+                        <button @click="add('blue', 'x', 7)">x7</button>
                     </div>
                     <br>
                     <br>
@@ -223,14 +225,16 @@ const bomb = (color) => {
                     <div>
                         <button @click="add('yellow', '+', 5)">+5</button>
                         <button @click="add('yellow', '+', 6)">+6</button>
+                        <button @click="add('yellow', '+', 7)">+7</button>
                         <button @click="add('yellow', '+', 10)">+10</button>
+                        <button @click="add('yellow', '+', 30)">+30</button>
                     </div>
                     <div>
                         <button @click="add('yellow', '-', 1)">-1</button>
-                        <button @click="add('yellow', '-', 2)">-2</button>
                         <button @click="add('yellow', 'x', 2)">x2</button>
                         <button @click="add('yellow', 'x', 3)">x3</button>
                         <button @click="add('yellow', 'x', 5)">x5</button>
+                        <button @click="add('yellow', 'x', 7)">x7</button>
                     </div>
                     <br>
                     <br>
@@ -258,14 +262,16 @@ const bomb = (color) => {
                     <div>
                         <button @click="add('green', '+', 5)">+5</button>
                         <button @click="add('green', '+', 6)">+6</button>
+                        <button @click="add('green', '+', 7)">+7</button>
                         <button @click="add('green', '+', 10)">+10</button>
+                        <button @click="add('green', '+', 30)">+30</button>
                     </div>
                     <div>
                         <button @click="add('green', '-', 1)">-1</button>
-                        <button @click="add('green', '-', 2)">-2</button>
                         <button @click="add('green', 'x', 2)">x2</button>
                         <button @click="add('green', 'x', 3)">x3</button>
                         <button @click="add('green', 'x', 5)">x5</button>
+                        <button @click="add('green', 'x', 7)">x7</button>
                     </div>
                     <br>
                     <br>
