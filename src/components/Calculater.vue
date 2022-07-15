@@ -166,7 +166,7 @@ const bomb = (color) => {
         <button @click="finishInit">決定</button>
     </div>
 
-    <div v-if="init == true">
+    <div v-if="init == true && blueBomb == false && redBomb == false && greenBomb == false">
         <button @click="init = false; blue = 0; red = 0; green = 0">トップカードからを設定しなおす</button>
         <br>
         <button @click="reset">トップカード以外をはじめから入力する</button>
