@@ -19,11 +19,13 @@ const blueList = ref([]);
 const redList = ref([]);
 const greenList = ref([]);
 
+
 const blueBomb = ref(false);
 const redBomb = ref(false);
 const greenBomb = ref(false);
 const bombList = ref([0, 0]);
 const bombError = ref(false);
+
 
 
 const finishInit = () => {
@@ -173,7 +175,7 @@ const bomb = (color) => {
     <div class="calculater" v-if="init == true && blueBomb == false && redBomb == false && greenBomb == false">
         <div class="colors">
             <div class="blue">
-                <strong>{{ blueCount }}</strong>--<button @click="blueBomb = true">Bomb</button>
+                <h2 class="blueCount">{{ blueCount }}</h2>--<button @click="blueBomb = true">Bomb</button>
                 <br>
                 <br>
                 <div class="blue-button">
@@ -208,7 +210,7 @@ const bomb = (color) => {
                 </div>
             </div>
             <div class="red">
-                <strong>{{ redCount }}</strong>--<button @click="redBomb = true">Bomb</button>
+                <h2 class="redCount">{{ redCount }}</h2>--<button @click="redBomb = true">Bomb</button>
                 <br>
                 <br>
                 <div class="red-button">
@@ -243,7 +245,7 @@ const bomb = (color) => {
                 </div>
             </div>
             <div class="green">
-                <strong>{{ greenCount }}</strong>--<button @click="greenBomb = true">Bomb</button>
+                <h2 class="greenCount">{{ greenCount }}</h2>--<button @click="greenBomb = true">Bomb</button>
                 <br>
                 <br>
                 <div class="green-button">
@@ -365,17 +367,27 @@ const bomb = (color) => {
 
 .colors .blue {
     box-sizing: border-box;
-    padding: 40px 80px;
+    width: 31%;
 }
 
 .colors .red {
     box-sizing: border-box;
-    padding: 40px 80px;
+    width: 31%;
 }
 
 .colors .green {
     box-sizing: border-box;
-    padding: 40px 80px;
+    width: 31%;
+}
+
+.blueCount {
+    color: blue
+}
+.redCount {
+    color: red
+}
+.greenCount {
+    color: green
 }
 
 .blue-bomb-t {
