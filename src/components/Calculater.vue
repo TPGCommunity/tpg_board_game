@@ -194,6 +194,7 @@ const bomb = (color) => {
                     </div>
                     <div>
                         <button @click="add('blue', '-', 1)">-1</button>
+                        <button @click="add('blue', '-', 2)">-2</button>
                         <button @click="add('blue', 'x', 2)">x2</button>
                         <button @click="add('blue', 'x', 3)">x3</button>
                         <button @click="add('blue', 'x', 5)">x5</button>
@@ -231,6 +232,7 @@ const bomb = (color) => {
                     </div>
                     <div>
                         <button @click="add('yellow', '-', 1)">-1</button>
+                        <button @click="add('yellow', '-', 2)">-2</button>
                         <button @click="add('yellow', 'x', 2)">x2</button>
                         <button @click="add('yellow', 'x', 3)">x3</button>
                         <button @click="add('yellow', 'x', 5)">x5</button>
@@ -268,6 +270,7 @@ const bomb = (color) => {
                     </div>
                     <div>
                         <button @click="add('green', '-', 1)">-1</button>
+                        <button @click="add('green', '-', 2)">-2</button>
                         <button @click="add('green', 'x', 2)">x2</button>
                         <button @click="add('green', 'x', 3)">x3</button>
                         <button @click="add('green', 'x', 5)">x5</button>
