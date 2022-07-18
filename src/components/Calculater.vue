@@ -9,9 +9,9 @@ const blueTop = ref(7);
 const yellowTop = ref(7);
 const greenTop = ref(7);
 
-const blueCount = computed(() => "Blue:" + blue.value);
-const yellowCount = computed(() => "Yellow:" + yellow.value);
-const greenCount = computed(() => "Green:" + green.value);
+const blueCount = computed(() => "青:" + blue.value);
+const yellowCount = computed(() => "黄:" + yellow.value);
+const greenCount = computed(() => "緑:" + green.value);
 
 const init = ref(false)
 
@@ -178,7 +178,7 @@ const bomb = (color) => {
                 <h2 class="blueCount">{{ blueCount }}</h2>--<button @click="blueBomb = true">逆鱗</button>
                 <br>
                 <br>
-                <div class="blue-button">
+                <div class="blue-buttons">
                     <div>
                         <button @click="add('blue', '+', 1)">+1</button>
                         <button @click="add('blue', '+', 2)">+2</button>
@@ -216,7 +216,7 @@ const bomb = (color) => {
                 <h2 class="yellowCount">{{ yellowCount }}</h2>--<button @click="yellowBomb = true">逆鱗</button>
                 <br>
                 <br>
-                <div class="yellow-button">
+                <div class="yellow-buttons">
                     <div>
                         <button @click="add('yellow', '+', 1)">+1</button>
                         <button @click="add('yellow', '+', 2)">+2</button>
@@ -254,7 +254,7 @@ const bomb = (color) => {
                 <h2 class="greenCount">{{ greenCount }}</h2>--<button @click="greenBomb = true">逆鱗</button>
                 <br>
                 <br>
-                <div class="green-button">
+                <div class="green-buttons">
                     <div>
                         <button @click="add('green', '+', 1)">+1</button>
                         <button @click="add('green', '+', 2)">+2</button>
@@ -377,28 +377,34 @@ const bomb = (color) => {
 .colors .blue {
     box-sizing: border-box;
     width: 31%;
+    background-color: rgba(62, 139, 255, 0.22);
 }
 
 .colors .yellow {
     box-sizing: border-box;
     width: 31%;
+    background-color: rgba(250, 221, 93, 0.22);
 }
 
 .colors .green {
     box-sizing: border-box;
     width: 31%;
+    background-color: rgba(147, 184, 108, 0.22);
 }
 
 .blueCount {
-    color: blue
+    color: blue;
+    background-color: white;
 }
 
 .yellowCount {
-    color: rgb(255, 208, 0)
+    color: rgb(255, 208, 0);
+    background-color: white;
 }
 
 .greenCount {
-    color: green
+    color: green;
+    background-color: white;
 }
 
 .blue-bomb-t {
@@ -406,10 +412,11 @@ const bomb = (color) => {
 }
 
 .yellow-bomb-t {
-    color: rgb(255, 208, 0);
+    color: rgb(255, 196, 0);
 }
 
 .green-bomb-t {
     color: green;
 }
+
 </style>
