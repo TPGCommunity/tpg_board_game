@@ -175,33 +175,32 @@ const bomb = (color) => {
     <div class="calculater" v-if="init == true && blueBomb == false && yellowBomb == false && greenBomb == false">
         <div class="colors">
             <div class="blue">
-                <h2 class="blueCount">{{ blueCount }}</h2>--<button @click="blueBomb = true">逆鱗</button>
+                <h2 class="blueCount">{{ blueCount }}</h2>
                 <br>
                 <br>
                 <div class="blue-buttons">
-                    <div>
-                        <button @click="add('blue', '+', 1)">+1</button>
-                        <button @click="add('blue', '+', 2)">+2</button>
-                        <button @click="add('blue', '+', 3)">+3</button>
-                        <button @click="add('blue', '+', 4)">+4</button>
+                    <button @click="blueBomb = true">逆鱗</button>
+                    <br><br>
+                    <div class="blue-buttons-n">
+                        <button @click="add('blue', '+', 1)" class="blue-button">+1</button>
+                        <button @click="add('blue', '+', 2)" class="blue-button">+2</button>
+                        <button @click="add('blue', '+', 3)" class="blue-button">+3</button>
+                        <button @click="add('blue', '+', 4)" class="blue-button">+4</button>
+                        <button @click="add('blue', '+', 5)" class="blue-button">+5</button>
+                        <button @click="add('blue', '+', 6)" class="blue-button">+6</button>
+                        <button @click="add('blue', '+', 7)" class="blue-button">+7</button>
+                        <button @click="add('blue', '+', 10)" class="blue-button">+10</button>
+                        <button @click="add('blue', '+', 30)" class="blue-button">+30</button>
+                        <br>
+                        <button @click="add('blue', '-', 1)" class="blue-button">-1</button>
+                        <button @click="add('blue', '-', 2)" class="blue-button">-2</button>
+                        <br>
+                        <button @click="add('blue', 'x', 2)" class="blue-button">x2</button>
+                        <button @click="add('blue', 'x', 3)" class="blue-button">x3</button>
+                        <button @click="add('blue', 'x', 5)" class="blue-button">x5</button>
+                        <button @click="add('blue', 'x', 7)" class="blue-button">x7</button>
                     </div>
-                    <div>
-                        <button @click="add('blue', '+', 5)">+5</button>
-                        <button @click="add('blue', '+', 6)">+6</button>
-                        <button @click="add('blue', '+', 7)">+7</button>
-                        <button @click="add('blue', '+', 10)">+10</button>
-                        <button @click="add('blue', '+', 30)">+30</button>
-                    </div>
-                    <div>
-                        <button @click="add('blue', '-', 1)">-1</button>
-                        <button @click="add('blue', '-', 2)">-2</button>
-                        <button @click="add('blue', 'x', 2)">x2</button>
-                        <button @click="add('blue', 'x', 3)">x3</button>
-                        <button @click="add('blue', 'x', 5)">x5</button>
-                        <button @click="add('blue', 'x', 7)">x7</button>
-                    </div>
-                    <br>
-                    <br>
+                    <br><br>
                     <div>
                         <button @click="deleteLast('blue')">ひとつ戻す</button>
                     </div>
@@ -222,9 +221,9 @@ const bomb = (color) => {
                         <button @click="add('yellow', '+', 2)">+2</button>
                         <button @click="add('yellow', '+', 3)">+3</button>
                         <button @click="add('yellow', '+', 4)">+4</button>
+                        <button @click="add('yellow', '+', 5)">+5</button>
                     </div>
                     <div>
-                        <button @click="add('yellow', '+', 5)">+5</button>
                         <button @click="add('yellow', '+', 6)">+6</button>
                         <button @click="add('yellow', '+', 7)">+7</button>
                         <button @click="add('yellow', '+', 10)">+10</button>
@@ -419,4 +418,15 @@ const bomb = (color) => {
     color: green;
 }
 
+
+.blue-bottons-n {
+    display: flex;
+    justify-content: center;
+    /* 中央寄せ */
+    padding: 20px;
+}
+
+.blue-button {
+    background-color: rgb(123, 123, 229);
+}
 </style>
