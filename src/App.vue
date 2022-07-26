@@ -9,11 +9,11 @@ import Calculater from './components/Calculater.vue';
 
 <template>
   <div class="header">
+    <h1>Prime Dragon</h1>
     <div class="info">
-      <a href="https://takiplazagardener.wixsite.com/official">ABOUT US "TPG"</a> | 
+      <a href="https://takiplazagardener.wixsite.com/official">ABOUT US "TPG"</a> |
       <a href="https://mobile.twitter.com/ikura_hamu_pr">Contact to the page creator</a>
     </div>
-    <h1>Prime Dragon</h1>
   </div>
   <!--<img alt="Vue logo" src="./assets/logo.png" />-->
   <!--<HelloWorld msg="Hello Vue 3 + Vite" />-->
@@ -28,7 +28,7 @@ import Calculater from './components/Calculater.vue';
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+  margin-top: 30px;
 }
 
 .info {

@@ -236,7 +236,6 @@ const bomb = (color) => {
                     </div>
                 </div>
                 <br>
-                <br>
                 <div>
                     <button @click="deleteLast('yellow')">ひとつ戻す</button>
                 </div>
@@ -271,7 +270,6 @@ const bomb = (color) => {
                         <button @click="add('green', 'x', 5)" class="green-button">x5</button>
                         <button @click="add('green', 'x', 7)" class="green-button">x7</button>
                     </div>
-                    <br>
                     <br>
                     <div>
                         <button @click="deleteLast('green')" class="back">ひとつ戻す</button>
