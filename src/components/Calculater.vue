@@ -179,7 +179,7 @@ const bomb = (color) => {
                 <br>
                 <div class="blue-buttons">
                     <button @click="blueBomb = true" class="blue-button">逆鱗</button>
-                    <br>
+                    <br><br>
                     <div class="blue-buttons-n">
                         <button @click="add('blue', '+', 1)" class="blue-button">+1</button>
                         <button @click="add('blue', '+', 2)" class="blue-button">+2</button>
@@ -214,7 +214,7 @@ const bomb = (color) => {
                 <br>
                 <div class="yellow-buttons">
                     <button @click="yellowBomb = true" class="yellow-button">逆鱗</button>
-                    <br>
+                    <br><br>
                     <div class="yellow-buttons-n">
                         <button @click="add('yellow', '+', 1)" class="yellow-button">+1</button>
                         <button @click="add('yellow', '+', 2)" class="yellow-button">+2</button>
