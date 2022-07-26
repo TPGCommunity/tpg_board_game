@@ -131,9 +131,9 @@ const bomb = (color) => {
 </script>
 
 <template>
-    <h1>計算システム</h1>
+    <h2>計算システム</h2>
     <div class="Top" v-if="init == false">
-        <h2>TOP CARD</h2>
+        <h3>TOP CARD</h3>
         <div>
             <label for="blueTop">青</label>
             <select name="blueTop" id="blueTop" v-model.number="blueTop">
@@ -175,114 +175,108 @@ const bomb = (color) => {
     <div class="calculater" v-if="init == true && blueBomb == false && yellowBomb == false && greenBomb == false">
         <div class="colors">
             <div class="blue">
-                <h2 class="blueCount">{{ blueCount }}</h2>--<button @click="blueBomb = true">逆鱗</button>
-                <br>
+                <h2 class="blueCount">{{ blueCount }}</h2>
                 <br>
                 <div class="blue-buttons">
-                    <div>
-                        <button @click="add('blue', '+', 1)">+1</button>
-                        <button @click="add('blue', '+', 2)">+2</button>
-                        <button @click="add('blue', '+', 3)">+3</button>
-                        <button @click="add('blue', '+', 4)">+4</button>
-                    </div>
-                    <div>
-                        <button @click="add('blue', '+', 5)">+5</button>
-                        <button @click="add('blue', '+', 6)">+6</button>
-                        <button @click="add('blue', '+', 7)">+7</button>
-                        <button @click="add('blue', '+', 10)">+10</button>
-                        <button @click="add('blue', '+', 30)">+30</button>
-                    </div>
-                    <div>
-                        <button @click="add('blue', '-', 1)">-1</button>
-                        <button @click="add('blue', '-', 2)">-2</button>
-                        <button @click="add('blue', 'x', 2)">x2</button>
-                        <button @click="add('blue', 'x', 3)">x3</button>
-                        <button @click="add('blue', 'x', 5)">x5</button>
-                        <button @click="add('blue', 'x', 7)">x7</button>
+                    <button @click="blueBomb = true" class="blue-button">逆鱗</button>
+                    <br>
+                    <div class="blue-buttons-n">
+                        <button @click="add('blue', '+', 1)" class="blue-button">+1</button>
+                        <button @click="add('blue', '+', 2)" class="blue-button">+2</button>
+                        <button @click="add('blue', '+', 3)" class="blue-button">+3</button>
+                        <button @click="add('blue', '+', 4)" class="blue-button">+4</button>
+                        <button @click="add('blue', '+', 5)" class="blue-button">+5</button>
+                        <button @click="add('blue', '+', 6)" class="blue-button">+6</button>
+                        <button @click="add('blue', '+', 7)" class="blue-button">+7</button>
+                        <button @click="add('blue', '+', 10)" class="blue-button">+10</button>
+                        <button @click="add('blue', '+', 30)" class="blue-button">+30</button>
+                        <br>
+                        <button @click="add('blue', '-', 1)" class="blue-button">-1</button>
+                        <button @click="add('blue', '-', 2)" class="blue-button">-2</button>
+                        <br>
+                        <button @click="add('blue', 'x', 2)" class="blue-button">x2</button>
+                        <button @click="add('blue', 'x', 3)" class="blue-button">x3</button>
+                        <button @click="add('blue', 'x', 5)" class="blue-button">x5</button>
+                        <button @click="add('blue', 'x', 7)" class="blue-button">x7</button>
                     </div>
                     <br>
-                    <br>
                     <div>
-                        <button @click="deleteLast('blue')">ひとつ戻す</button>
+                        <button @click="deleteLast('blue')" class="back">ひとつ戻す</button>
                     </div>
                 </div>
-                <br>
                 <br>
                 <div v-for="blueCard in blueList" class="blue-list">
                     <div>{{ blueCard[0] }}{{ blueCard[1] }}</div>
                 </div>
             </div>
             <div class="yellow">
-                <h2 class="yellowCount">{{ yellowCount }}</h2>--<button @click="yellowBomb = true">逆鱗</button>
-                <br>
+                <h2 class="yellowCount">{{ yellowCount }}</h2>
                 <br>
                 <div class="yellow-buttons">
-                    <div>
-                        <button @click="add('yellow', '+', 1)">+1</button>
-                        <button @click="add('yellow', '+', 2)">+2</button>
-                        <button @click="add('yellow', '+', 3)">+3</button>
-                        <button @click="add('yellow', '+', 4)">+4</button>
-                    </div>
-                    <div>
-                        <button @click="add('yellow', '+', 5)">+5</button>
-                        <button @click="add('yellow', '+', 6)">+6</button>
-                        <button @click="add('yellow', '+', 7)">+7</button>
-                        <button @click="add('yellow', '+', 10)">+10</button>
-                        <button @click="add('yellow', '+', 30)">+30</button>
-                    </div>
-                    <div>
-                        <button @click="add('yellow', '-', 1)">-1</button>
-                        <button @click="add('yellow', '-', 2)">-2</button>
-                        <button @click="add('yellow', 'x', 2)">x2</button>
-                        <button @click="add('yellow', 'x', 3)">x3</button>
-                        <button @click="add('yellow', 'x', 5)">x5</button>
-                        <button @click="add('yellow', 'x', 7)">x7</button>
-                    </div>
+                    <button @click="yellowBomb = true" class="yellow-button">逆鱗</button>
                     <br>
-                    <br>
-                    <div>
-                        <button @click="deleteLast('yellow')">ひとつ戻す</button>
+                    <div class="yellow-buttons-n">
+                        <button @click="add('yellow', '+', 1)" class="yellow-button">+1</button>
+                        <button @click="add('yellow', '+', 2)" class="yellow-button">+2</button>
+                        <button @click="add('yellow', '+', 3)" class="yellow-button">+3</button>
+                        <button @click="add('yellow', '+', 4)" class="yellow-button">+4</button>
+                        <button @click="add('yellow', '+', 5)" class="yellow-button">+5</button>
+                        <button @click="add('yellow', '+', 6)" class="yellow-button">+6</button>
+                        <button @click="add('yellow', '+', 7)" class="yellow-button">+7</button>
+                        <button @click="add('yellow', '+', 10)" class="yellow-button">+10</button>
+                        <button @click="add('yellow', '+', 30)" class="yellow-button">+30</button>
+                        <br>
+                        <button @click="add('yellow', '-', 1)" class="yellow-button">-1</button>
+                        <button @click="add('yellow', '-', 2)" class="yellow-button">-2</button>
+                        <br>
+                        <button @click="add('yellow', 'x', 2)" class="yellow-button">x2</button>
+                        <button @click="add('yellow', 'x', 3)" class="yellow-button">x3</button>
+                        <button @click="add('yellow', 'x', 5)" class="yellow-button">x5</button>
+                        <button @click="add('yellow', 'x', 7)" class="yellow-button">x7</button>
                     </div>
                 </div>
                 <br>
+                <br>
+                <div>
+                    <button @click="deleteLast('yellow')">ひとつ戻す</button>
+                </div>
                 <br>
                 <div v-for="yellowCard in yellowList" class="yellow-list">
                     <div>{{ yellowCard[0] }}{{ yellowCard[1] }}</div>
                 </div>
             </div>
             <div class="green">
-                <h2 class="greenCount">{{ greenCount }}</h2>--<button @click="greenBomb = true">逆鱗</button>
-                <br>
+                <h2 class="greenCount">{{ greenCount }}</h2>
                 <br>
                 <div class="green-buttons">
-                    <div>
-                        <button @click="add('green', '+', 1)">+1</button>
-                        <button @click="add('green', '+', 2)">+2</button>
-                        <button @click="add('green', '+', 3)">+3</button>
-                        <button @click="add('green', '+', 4)">+4</button>
-                    </div>
-                    <div>
-                        <button @click="add('green', '+', 5)">+5</button>
-                        <button @click="add('green', '+', 6)">+6</button>
-                        <button @click="add('green', '+', 7)">+7</button>
-                        <button @click="add('green', '+', 10)">+10</button>
-                        <button @click="add('green', '+', 30)">+30</button>
-                    </div>
-                    <div>
-                        <button @click="add('green', '-', 1)">-1</button>
-                        <button @click="add('green', '-', 2)">-2</button>
-                        <button @click="add('green', 'x', 2)">x2</button>
-                        <button @click="add('green', 'x', 3)">x3</button>
-                        <button @click="add('green', 'x', 5)">x5</button>
-                        <button @click="add('green', 'x', 7)">x7</button>
+                    <button @click="greenBomb = true" class="green-button">逆鱗</button>
+                    <br>
+                    <br>
+                    <div class="green-buttons-n">
+                        <button @click="add('green', '+', 1)" class="green-button">+1</button>
+                        <button @click="add('green', '+', 2)" class="green-button">+2</button>
+                        <button @click="add('green', '+', 3)" class="green-button">+3</button>
+                        <button @click="add('green', '+', 4)" class="green-button">+4</button>
+                        <button @click="add('green', '+', 5)" class="green-button">+5</button>
+                        <button @click="add('green', '+', 6)" class="green-button">+6</button>
+                        <button @click="add('green', '+', 7)" class="green-button">+7</button>
+                        <button @click="add('green', '+', 10)" class="green-button">+10</button>
+                        <button @click="add('green', '+', 30)" class="green-button">+30</button>
+                        <br>
+                        <button @click="add('green', '-', 1)" class="green-button">-1</button>
+                        <button @click="add('green', '-', 2)" class="green-button">-2</button>
+                        <br>
+                        <button @click="add('green', 'x', 2)" class="green-button">x2</button>
+                        <button @click="add('green', 'x', 3)" class="green-button">x3</button>
+                        <button @click="add('green', 'x', 5)" class="green-button">x5</button>
+                        <button @click="add('green', 'x', 7)" class="green-button">x7</button>
                     </div>
                     <br>
                     <br>
                     <div>
-                        <button @click="deleteLast('green')">ひとつ戻す</button>
+                        <button @click="deleteLast('green')" class="back">ひとつ戻す</button>
                     </div>
                 </div>
-                <br>
                 <br>
                 <div v-for="greenCard in greenList" class="green-list">
                     <div>{{ greenCard[0] }}{{ greenCard[1] }}</div>
@@ -293,7 +287,7 @@ const bomb = (color) => {
 
     <div class="bombs">
         <div class="blue-bomb" v-if="blueBomb == true">
-            <h2 class="blue-bomb-t">逆鱗　青</h2>
+            <h3 class="blue-bomb-t">逆鱗　青</h3>
             <div v-for="(blueCard, index) in blueList">
                 {{ index }}:{{ blueCard[0] }}{{ blueCard[1] }}
             </div>
@@ -411,12 +405,71 @@ const bomb = (color) => {
     color: blue;
 }
 
+.blue-bomb {
+    background-color: rgba(62, 139, 255, 0.22);
+}
+
 .yellow-bomb-t {
     color: rgb(255, 196, 0);
+}
+
+.yellow-bomb {
+    background-color: rgba(250, 221, 93, 0.22);
 }
 
 .green-bomb-t {
     color: green;
 }
 
+.green-bomb {
+    background-color: rgba(147, 184, 108, 0.22);
+}
+
+.blue-bottons-n {
+    display: flex;
+    justify-content: center;
+    /* 中央寄せ */
+    padding: 20px;
+}
+
+.blue-button {
+    background-color: rgba(62, 139, 255, 0.22);
+    width: 19%;
+    padding: 0.1em;
+    font-size: large;
+    border: 1px solid black;
+    border-radius: 5%;
+}
+
+.yellow-bottons-n {
+    display: flex;
+    justify-content: center;
+    /* 中央寄せ */
+    padding: 20px;
+}
+
+.yellow-button {
+    background-color: rgba(250, 221, 93, 0.22);
+    width: 19%;
+    padding: 0.1em;
+    font-size: large;
+    border: 1px solid black;
+    border-radius: 5%;
+}
+
+.green-bottons-n {
+    display: flex;
+    justify-content: center;
+    /* 中央寄せ */
+    padding: 20px;
+}
+
+.green-button {
+    background-color: rgba(147, 184, 108, 0.22);
+    width: 19%;
+    padding: 0.1em;
+    font-size: large;
+    border: 1px solid black;
+    border-radius: 5%;
+}
 </style>
