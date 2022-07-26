@@ -23,7 +23,7 @@ const greenList = ref([]);
 const blueBomb = ref(false);
 const yellowBomb = ref(false);
 const greenBomb = ref(false);
-const bombList = ref([0, 0]);
+const bombList = ref([0, 0, 0]);
 const bombError = ref(false);
 
 
@@ -91,17 +91,18 @@ const calc = (list) => {
 }
 
 const bomb = (color) => {
-    console.log("here!")
-    if (bombList.value[0] == bombList.value[1]) {
+    //console.log(bombList.value)
+    if (bombList.value[0] == bombList.value[1] || bombList.value[1] == bombList.value[2] || bombList.value[0] == bombList.value[2]) {
         bombError.value = true;
     }
     else {
         bombError.value = false;
-        if (bombList.value[0] < bombList.value[1]) {
-            bombList.value.reverse();
-        }
+        var newBombList = [bombList.value[0], bombList.value[1], bombList.value[2]]
+        //console.log(newBombList)
+        newBombList.sort().reverse()
+        //console.log(newBombList)
         if (color == "blue") {
-            for (const n of bombList.value) {
+            for (const n of newBombList) {
                 if (n > 0) {
                     blueList.value.splice(n, 1);
                 }
@@ -109,7 +110,7 @@ const bomb = (color) => {
             blue.value = calc(blueList.value);
             blueBomb.value = false;
         } else if (color == "yellow") {
-            for (const n of bombList.value) {
+            for (const n of newBombList) {
                 if (n > 0) {
                     yellowList.value.splice(n, 1);
                 }
@@ -117,7 +118,7 @@ const bomb = (color) => {
             yellow.value = calc(yellowList.value);
             yellowBomb.value = false;
         } else if (color == "green") {
-            for (const n of bombList.value) {
+            for (const n of newBombList) {
                 if (n > 0) {
                     greenList.value.splice(n, 1);
                 }
@@ -289,8 +290,7 @@ const bomb = (color) => {
             <div v-for="(blueCard, index) in blueList">
                 {{ index }}:{{ blueCard[0] }}{{ blueCard[1] }}
             </div>
-            <div>取り除くカードの番号を２つまで選択（トップカードは選択できません）</div>
-            <div v-if="bombError == true" class="bomb-error"><strong>同じカードを２回選んでいます！</strong></div>
+            <div>取り除くカードの番号を3つまで選択（トップカードは選択できません）</div>
             <div>
                 <select name="blueBomb1" id="blueBomb1" v-model.number="bombList[0]">
                     <option v-for="(b, i) in blueList" v-bind:value="i">
@@ -304,8 +304,15 @@ const bomb = (color) => {
                     </option>
                     <option value=0>選ばない</option>
                 </select>
+                <select name="blueBomb3" id="blueBomb3" v-model.number="bombList[2]">
+                    <option v-for="(b, i) in blueList" v-bind:value="i">
+                        <div v-if="i > 0">{{ i }}:{{ b[0] }}{{ b[1] }}</div>
+                    </option>
+                    <option value=0>選ばない</option>
+                </select>
                 <button @click="bomb('blue')">逆鱗!</button>
-                <button @click="blueBomb = false; bombList = [0, 0]">逆鱗をキャンセル</button>
+                <button @click="blueBomb = false; bombList = [0, 0, 0]">逆鱗をキャンセル</button>
+                <div v-if="bombError == true" class="bomb-error"><strong>同じカードを２回以上選んでいます！</strong></div>
             </div>
         </div>
         <div class="yellow-bomb" v-if="yellowBomb == true">
@@ -313,8 +320,7 @@ const bomb = (color) => {
             <div v-for="(yellowCard, index) in yellowList">
                 {{ index }}:{{ yellowCard[0] }}{{ yellowCard[1] }}
             </div>
-            <div>取り除くカードの番号を２つまで選択（トップカードは選択できません）</div>
-            <div v-if="bombError == true" class="bomb-error"><strong>同じカードを２回選んでいます！</strong></div>
+            <div>取り除くカードの番号を3つまで選択（トップカードは選択できません）</div>
             <div>
                 <select name="yellowBomb1" id="yellowBomb1" v-model.number="bombList[0]">
                     <option v-for="(b, i) in yellowList" v-bind:value="i">
@@ -328,8 +334,15 @@ const bomb = (color) => {
                     </option>
                     <option value=0>選ばない</option>
                 </select>
+                <select name="yellowBomb3" id="yellowBomb3" v-model.number="bombList[2]">
+                    <option v-for="(b, i) in yellowList" v-bind:value="i">
+                        <div v-if="i > 0">{{ i }}:{{ b[0] }}{{ b[1] }}</div>
+                    </option>
+                    <option value=0>選ばない</option>
+                </select>
                 <button @click="bomb('yellow')">逆鱗!</button>
-                <button @click="yellowBomb = false; bombList = [0, 0]">逆鱗をキャンセル</button>
+                <button @click="yellowBomb = false; bombList = [0, 0, 0]">逆鱗をキャンセル</button>
+                <div v-if="bombError == true" class="bomb-error"><strong>同じカードを２回選んでいます！</strong></div>
             </div>
         </div>
         <div class="green-bomb" v-if="greenBomb == true">
@@ -338,7 +351,6 @@ const bomb = (color) => {
                 {{ index }}:{{ greenCard[0] }}{{ greenCard[1] }}
             </div>
             <div>取り除くカードの番号を２つまで選択（トップカードは選択できません）</div>
-            <div v-if="bombError == true" class="bomb-error"><strong>同じカードを２回選んでいます！</strong></div>
             <div>
                 <select name="greenBomb1" id="greenBomb1" v-model.number="bombList[0]">
                     <option v-for="(b, i) in greenList" v-bind:value="i">
@@ -352,8 +364,15 @@ const bomb = (color) => {
                     </option>
                     <option value=0>選ばない</option>
                 </select>
+                <select name="greenBomb3" id="greenBomb3" v-model.number="bombList[2]">
+                    <option v-for="(b, i) in greenList" v-bind:value="i">
+                        <div v-if="i > 0">{{ i }}:{{ b[0] }}{{ b[1] }}</div>
+                    </option>
+                    <option value=0>選ばない</option>
+                </select>
                 <button @click="bomb('green')">逆鱗!</button>
-                <button @click="greenBomb = false; bombList = [0, 0]">逆鱗をキャンセル</button>
+                <button @click="greenBomb = false; bombList = [0, 0, 0]">逆鱗をキャンセル</button>
+                <div v-if="bombError == true" class="bomb-error"><strong>同じカードを２回選んでいます！</strong></div>
             </div>
         </div>
     </div>
