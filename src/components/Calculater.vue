@@ -289,7 +289,7 @@ const bomb = (color) => {
             <div v-for="(blueCard, index) in blueList">
                 {{ index }}:{{ blueCard[0] }}{{ blueCard[1] }}
             </div>
-            <div>取り除くカードの番号を２つまで選択（トップカードは選択できません）</div>
+            <div>取り除くカードの番号を3つまで選択（トップカードは選択できません）</div>
             <div v-if="bombError == true" class="bomb-error"><strong>同じカードを２回選んでいます！</strong></div>
             <div>
                 <select name="blueBomb1" id="blueBomb1" v-model.number="bombList[0]">
