@@ -1,12 +1,16 @@
 <script setup>
 import { ref } from "vue";
 import Calculater from './Calculater.vue';
+import SideBar from './SideBar.vue';
 import UpdateInfo from './Modals/UpdateInfo.vue';
 
-const showModal = ref(false);
+const showSideBar = ref(false);
+const openSideBar = () => {
+    showSideBar.value = true
+}
+
 const updateInfoModal = ref(false);
 const openModal = (modalName) => {
-    showModal.value = true
     if (modalName = 'update') {
         updateInfoModal.value = true
     }
@@ -15,17 +19,30 @@ const openModal = (modalName) => {
 
 <template>
     <div class="header">
+        <div @click="openSideBar" class="open-side-bar">
+            <p><span></span>MENU</p>
+        </div>
         <h1>Prime Dragon</h1>
-        <div class="info">
-            <a href="https://takiplazagardener.wixsite.com/official" target="_blank" rel="noopener noreferrer">
-                AboutUs "TPG"</a> |
-            <a href="https://mobile.twitter.com/ikura_hamu_pr" target="_blank" rel="noopener noreferrer">
-                Contact to the page creator</a>
-        </div>
-        <div>
-            <button @click="openModal('update')">Update Info</button>
-        </div>
     </div>
+
+    <SideBar v-if="showSideBar" @update="openModal('update')" @closeSideBar="showSideBar = false" />
     <Calculater />
-    <UpdateInfo @close="showModal=false; updateInfoModal=false" v-if="showModal && updateInfoModal" />
+    <UpdateInfo v-if="updateInfoModal" @closeModal="updateInfoModal = false" />
 </template>
+
+<style>
+.open-side-bar {
+    display: flex;
+    align-items: left;
+    justify-content: left;
+    position: fixed;
+    vertical-align: top;
+}
+
+.open-side-bar p span::before {
+    content: "\25B6";
+    color: black;
+    display: inline-block;
+    padding-left: 20px;
+}
+</style>

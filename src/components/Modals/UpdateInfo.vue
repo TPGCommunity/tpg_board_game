@@ -1,8 +1,8 @@
 <template>
     <transition appear>
-        <div class="modal">
+        <div class="modal" @click.self="$emit('closeModal')">
             <div class="modal-window">
-                <butoon @click="$emit('close')" class="close" type="button"><span class="batsu"></span></butoon>
+                <butoon @click="$emit('closeModal')" class="close" type="button"><span class="batsu"></span></butoon>
                 <div class="modal-content">
                     <h2>UPDATE INFO</h2>
                     <div>
