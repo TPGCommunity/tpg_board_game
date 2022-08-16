@@ -19,6 +19,8 @@ const blueList = ref([]);
 const yellowList = ref([]);
 const greenList = ref([]);
 
+const playerNumber = ref(0);
+const playersList = ref(["Player1", "Player2", "Player3", "Player4", "Player5", "Player6"]);
 
 const blueBomb = ref(false);
 const yellowBomb = ref(false);
@@ -163,6 +165,24 @@ const bomb = (color) => {
                 <option value=11>11</option>
                 <option value=12>12</option>
             </select>
+        </div>
+        <h3>プレイヤーの設定</h3>
+        <div class="player-setting">
+            <label for="playerNumber">プレイヤーの人数を選択（３から６人）</label>
+            <select name="playerNumber" id="playerNumber" v-model.number="playerNumber">
+                <option value=3>3人</option>
+                <option value=4>4人</option>
+                <option value=5>5人</option>
+                <option value=6>6人</option>
+            </select>
+            <div class="player-name-setting">
+                <div>Player1:<input v-model="playersList[0]"></div>
+                <div>Player2:<input v-model="playersList[1]"></div>
+                <div>Player3:<input v-model="playersList[2]"></div>
+                <div v-if="playerNumber > 3">Player4:<input v-model="playersList[3]"></div>
+                <div v-if="playerNumber > 4">Player5:<input v-model="playersList[4]"></div>
+                <div v-if="playerNumber > 5">Player6:<input v-model="playersList[5]"></div>
+            </div>
         </div>
         <button @click="finishInit">決定</button>
     </div>
