@@ -26,7 +26,7 @@
     align-items: left;
     justify-content: left;
     position: fixed;
-    z-index: 30;
+    z-index: 20;
     top: 0;
     left: 0;
     width: 100%;
@@ -36,10 +36,12 @@
 
 .sidebar-wrapper {
     align-items: left;
-    z-index: 30;
+    z-index: 20;
     height: 100%;
     width: 25%;
     background-color: white;
+    border-right: solid 3px;
+    border-color: gray;
 }
 
 .contents p {
