@@ -26,7 +26,6 @@
                 </div>
             </div>
         </div>
-
     </transition>
 </template>
 
@@ -41,7 +40,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.5);
+    background: rgba(0, 0, 0, 0.2);
 }
 
 .modal-window {
@@ -104,7 +103,7 @@ td {
 
 thead,
 tfoot {
-    background-color: #333;
+    background-color: rgb(87, 86, 86);
     color: #fff;
 }
 </style>
