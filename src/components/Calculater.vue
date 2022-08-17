@@ -29,9 +29,10 @@ const greenBomb = ref(false);
 const bombList = ref([0, 0, 0]);
 const bombError = ref(false);
 
-const roundScoreList = ref([]);
-const finishPlayer = ref("");
-const dragon = ref(false)
+const roundScoreList = ref([0,0,0,0,0,0]);
+const finishPlayer = ref(0);
+const finishColor = ref("")
+const dragon = ref(false);
 
 const finishInit = () => {
     init.value = true;
@@ -100,6 +101,7 @@ const calc = (list) => {
 }
 
 const finishOnePlayer = (playerIndex, color, dragon) => {
+    console.log(playerIndex, color, dragon)
     var n = 0
     if (color == "blue") {
         n = blue.value
@@ -114,8 +116,9 @@ const finishOnePlayer = (playerIndex, color, dragon) => {
         score = dragonCheck(n)
     } else {
         score = factorization(n)
+        console.log(score)
     }
-    roundScoreList[playerIndex] = score
+    roundScoreList.value[playerIndex] = score
 }
 
 const factorization = (n) => {
@@ -260,16 +263,38 @@ const bomb = (color) => {
         <button @click="reset">トップカード以外をはじめから入力する</button>
     </div>
 
-    <div v-if="init == true && blueBomb == false && yellowBomb == false && greenBomb == false" class="finish">
-        <button @click="">上がる</button>
-        <label for="finishPlayer">上がるプレイヤー</label>
-        <select v-model.number="finishPlayer" name="finishPlayer">
-            <option v-for="(player, index) in playersList" :value="index">
-                <div>{{ player }}</div>
-            </option>
-        </select>
-        <label for="dragon">龍王</label>
-        <input type="checkbox" v-model="dragon" name="dragon">
+    <div class="score" v-if="init == true && blueBomb == false && yellowBomb == false && greenBomb == false">
+        <div class="score-table-wrapper">
+            <table border="1" class="score-table">
+                <thead>
+                    <tr>
+                        <th class="table-content" v-for="player in playersList">{{player}}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="table-content" v-for="(pl, index) in playersList">{{roundScoreList[index]}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="finish">
+            <button @click="finishOnePlayer(finishPlayer, finishColor, dragon)">上がる</button>
+            <label for="finish-player">上がるプレイヤー</label>
+            <select v-model.number="finishPlayer" name="finish-player">
+                <option v-for="(player, index) in playersList" :value="index">
+                    <div>{{ player }}</div>
+                </option>
+            </select>
+            <label for="finish-color">色</label>
+            <select v-model="finishColor" name="finish-color">
+                <option value="blue">青</option>
+                <option value="yellow">黄</option>
+                <option value="green">緑</option>
+            </select>
+            <label for="dragon">龍王</label>
+            <input type="checkbox" v-model="dragon" name="dragon">
+        </div>
     </div>
 
     <div class="calculater" v-if="init == true && blueBomb == false && yellowBomb == false && greenBomb == false">
@@ -587,5 +612,16 @@ const bomb = (color) => {
     font-size: large;
     border: 1px solid black;
     border-radius: 5%;
+}
+
+.table-content {
+    background-color: white;
+    color: black;
+    text-align: center;
+}
+
+table {
+    margin-left: auto;
+    margin-right: auto;
 }
 </style>
