@@ -1,5 +1,6 @@
 <script setup>
 import { ref, computed } from "vue";
+import { primeBool } from './eratosutenesu.js';
 
 const blue = ref(0);
 const yellow = ref(0);
@@ -19,7 +20,7 @@ const blueList = ref([]);
 const yellowList = ref([]);
 const greenList = ref([]);
 
-const playerNumber = ref(0);
+const playerNumber = ref(3);
 const playersList = ref(["Player1", "Player2", "Player3", "Player4", "Player5", "Player6"]);
 
 const blueBomb = ref(false);
@@ -28,7 +29,9 @@ const greenBomb = ref(false);
 const bombList = ref([0, 0, 0]);
 const bombError = ref(false);
 
-
+const roundScoreList = ref([]);
+const finishPlayer = ref("");
+const dragon = ref(false)
 
 const finishInit = () => {
     init.value = true;
@@ -39,6 +42,10 @@ const finishInit = () => {
     blueList.value = [["top:", blue.value]]
     yellowList.value = [["top:", yellow.value]]
     greenList.value = [["top:", green.value]]
+
+    if (playerNumber.value != 6) {
+        playersList.value.splice(playerNumber.value, 6 - playerNumber.value)
+    }
 }
 
 const add = (color, operator, num) => {
@@ -88,6 +95,66 @@ const calc = (list) => {
         } else if (operator == "x") {
             n = n * num
         }
+    }
+    return n
+}
+
+const finishOnePlayer = (playerIndex, color, dragon) => {
+    var n = 0
+    if (color == "blue") {
+        n = blue.value
+    } else if (color == 'yellow') {
+        n = yellow.value
+    } else if (color == 'green') {
+        n = green.value
+    }
+
+    var score = 0
+    if (dragon) {
+        score = dragonCheck(n)
+    } else {
+        score = factorization(n)
+    }
+    roundScoreList[playerIndex] = score
+}
+
+const factorization = (n) => {
+    var score = 0
+    if (n > 0) {
+        var p = 3
+        var l = []
+        while (n % 2 == 0) {
+            l.push(2)
+            n = n / 2
+        }
+        while (p <= Math.sqrt(n)) {
+            while (n % p == 0) {
+                l.push(p)
+                n = n / p
+            }
+            if (n == 1) {
+                break
+            }
+            p += 2
+            if (p % 5 == 0 && p > 5) {
+                p += 2
+            }
+        }
+        if (n != 1) {
+            l.push(n)
+        }
+
+        for (const pn of l) {
+            score += pn
+        }
+        return score
+    }
+
+}
+
+const dragonCheck = (n) => {
+    while (!primeBool[n]) {
+        n -= 1
     }
     return n
 }
@@ -191,6 +258,18 @@ const bomb = (color) => {
         <button @click="init = false; blue = 0; yellow = 0; green = 0">トップカードからを設定しなおす</button>
         <br>
         <button @click="reset">トップカード以外をはじめから入力する</button>
+    </div>
+
+    <div v-if="init == true && blueBomb == false && yellowBomb == false && greenBomb == false" class="finish">
+        <button @click="">上がる</button>
+        <label for="finishPlayer">上がるプレイヤー</label>
+        <select v-model.number="finishPlayer" name="finishPlayer">
+            <option v-for="(player, index) in playersList" :value="index">
+                <div>{{ player }}</div>
+            </option>
+        </select>
+        <label for="dragon">龍王</label>
+        <input type="checkbox" v-model="dragon" name="dragon">
     </div>
 
     <div class="calculater" v-if="init == true && blueBomb == false && yellowBomb == false && greenBomb == false">
