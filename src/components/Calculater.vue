@@ -2,6 +2,10 @@
 import { ref, computed } from "vue";
 import { primeBool } from './eratosutenesu.js';
 import PlayerSettingHelp from './Modals/PlayerSettingHelp.vue'
+import Result from './Modals/Result.vue'
+
+const showResult = ref(false)
+const round = ref(0)
 
 const startSetting = ref(false)
 const usePlayer = ref(true)
@@ -217,6 +221,8 @@ const bomb = (color) => {
 
 <template>
     <PlayerSettingHelp v-if="openPlayerSettingHelp" @closePlayerSettingHelp="openPlayerSettingHelp = false" />
+    <Result v-if="showResult" :oneRoundScore="roundScoreList" :playersList="playersList" :playerNumber="playerNumber" status="endOfRound" :round="round"/>
+
     <h2>計算システム</h2>
 
     <div class="player-setting" v-if="!startSetting && !init">

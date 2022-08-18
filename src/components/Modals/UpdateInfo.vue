@@ -6,7 +6,7 @@
                 <div class="modal-content">
                     <h2>UPDATE INFO</h2>
                     <div>
-                        <tabel border="1">
+                        <table border="1">
                             <thead>
                                 <tr>
                                     <th>DATE</th>
@@ -21,7 +21,7 @@
                                     <td>アップデート情報を告知するページを追加しました。</td>
                                 </tr>
                             </tbody>
-                        </tabel>
+                        </table>
                     </div>
                 </div>
             </div>

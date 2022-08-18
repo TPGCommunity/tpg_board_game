@@ -2,7 +2,7 @@
   <transition appear>
     <div class="modal" @click.self="$emit('closePlayerSettingHelp')">
       <div class="modal-window">
-        <butoon @click="$emit('closePlayerSettingHelp')" class="close" type="button"><span class="batsu"></span></butoon>
+        <button @click="$emit('closePlayerSettingHelp')" class="close" type="button"><span class="batsu"></span></button>
         <div class="modal-content">
           <h2>プレイヤーの設定について</h2>
           <div class="msg">
