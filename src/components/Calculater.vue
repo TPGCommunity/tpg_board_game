@@ -1,8 +1,11 @@
 <script setup>
 import { ref, computed } from "vue";
 import { primeBool } from './eratosutenesu.js';
+import PlayerSettingHelp from './Modals/PlayerSettingHelp.vue'
 
 const startSetting = ref(false)
+const usePlayer = ref(true)
+const openPlayerSettingHelp = ref(false)
 
 const init = ref(false)
 
@@ -37,6 +40,7 @@ const finishColor = ref("")
 const dragon = ref(false);
 
 const finishSetting = () => {
+    usePlayer.value = true
     startSetting.value = true
     if (playerNumber.value != 6) {
         playersList.value.splice(playerNumber.value, 6 - playerNumber.value)
@@ -212,10 +216,11 @@ const bomb = (color) => {
 </script>
 
 <template>
+    <PlayerSettingHelp v-if="openPlayerSettingHelp" @closePlayerSettingHelp="openPlayerSettingHelp = false" />
     <h2>計算システム</h2>
 
     <div class="player-setting" v-if="!startSetting && !init">
-        <h3>プレイヤーの設定</h3>
+        <h3>プレイヤーの設定<button class="help-button" @click="openPlayerSettingHelp = true">?</button></h3>
         <label for="playerNumber">プレイヤーの人数を選択（３から６人）</label>
         <select name="playerNumber" id="playerNumber" v-model.number="playerNumber">
             <option value=3>3人</option>
@@ -231,7 +236,8 @@ const bomb = (color) => {
             <div v-if="playerNumber > 4">Player5:<input v-model="playersList[4]"></div>
             <div v-if="playerNumber > 5">Player6:<input v-model="playersList[5]"></div>
         </div>
-        <button @click="finishSetting">決定</button>
+        <button @click="finishSetting">このメンバーでゲームを始める</button>
+        もしくは<button @click="usePlayer = false; startSetting = true">プレイヤーを設定しない</button>
     </div>
 
     <div class="top" v-if="!init && startSetting">
@@ -265,17 +271,19 @@ const bomb = (color) => {
                 <option value=12>12</option>
             </select>
         </div>
+        <button @click="startSetting=false">プレイヤー設定に戻る</button>
         <button @click="finishInit">決定</button>
     </div>
 
     <div class="reset-buttons" v-if="init == true && blueBomb == false && yellowBomb == false && greenBomb == false">
-        <button @clisck="startSetting = false; init= false; blue = 0; yellow = 0; green = 0">人数から設定しなおす</button>
+        <button @click="startSetting = false; init = false; blue = 0; yellow = 0; green = 0">人数から設定しなおす</button>
         <button @click="init = false; blue = 0; yellow = 0; green = 0">トップカードから設定しなおす</button>
         <br>
         <button @click="resetExceptTop">トップカード以外をはじめから入力する</button>
     </div>
 
-    <div class="score" v-if="init == true && blueBomb == false && yellowBomb == false && greenBomb == false">
+    <div class="score"
+        v-if="init == true && usePlayer && blueBomb == false && yellowBomb == false && greenBomb == false">
         <div class="score-table-wrapper">
             <table border="1" class="score-table">
                 <thead>
@@ -516,6 +524,10 @@ const bomb = (color) => {
 </template>
 
 <style>
+.help-button {
+    vertical-align: middle;
+}
+
 .reset-buttons {
     text-align: right;
 }
