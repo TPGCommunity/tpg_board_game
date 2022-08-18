@@ -14,7 +14,7 @@
                                     <th>CONTENT</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody><!--TODO:masterへのマージ前に書き足す。-->
                                 <tr>
                                     <td>2022/08/09</td>
                                     <td>Add " UPDATE INFO" Page</td>

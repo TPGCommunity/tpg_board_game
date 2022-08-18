@@ -11,7 +11,7 @@ const openSideBar = () => {
 
 const updateInfoModal = ref(false);
 const openModal = (modalName) => {
-    if (modalName = 'update') {
+    if (modalName == 'update') {
         updateInfoModal.value = true
     }
 }

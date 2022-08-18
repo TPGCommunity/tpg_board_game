@@ -1,13 +1,7 @@
-0-App.vue--1-InitModal.vue 最初に人数を設定
-          -2-Calculater.vue　メインの計算部分
-          -3-Rules.vue ルール説明　ポップアップ
-          -4-Result.vue 各ラウンド終了後に合計得点を表示　ポップアップ
+1.Home--.
+        ---3.Calculater
+        ---4.SideBar
+        ---5.UpdateInfo
+        ---6.Result
 
-3,4 => 閉じるボタンクリック:$emit => 0
-2 => 得点:$emit => 0 => props => 4
-
-vue-js-modalにしよう
-https://tech.fusic.co.jp/posts/2020-10-26-vue-modal-sample/
-vue3に対応してなかった
-
-teleportなるものを使ってみる
+3=>1=>

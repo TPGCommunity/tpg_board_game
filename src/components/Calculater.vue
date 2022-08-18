@@ -2,6 +2,10 @@
 import { ref, computed } from "vue";
 import { primeBool } from './eratosutenesu.js';
 
+const startSetting = ref(false)
+
+const init = ref(false)
+
 const blue = ref(0);
 const yellow = ref(0);
 const green = ref(0);
@@ -13,8 +17,6 @@ const greenTop = ref(7);
 const blueCount = computed(() => "青:" + blue.value);
 const yellowCount = computed(() => "黄:" + yellow.value);
 const greenCount = computed(() => "緑:" + green.value);
-
-const init = ref(false)
 
 const blueList = ref([]);
 const yellowList = ref([]);
@@ -29,10 +31,18 @@ const greenBomb = ref(false);
 const bombList = ref([0, 0, 0]);
 const bombError = ref(false);
 
-const roundScoreList = ref([0,0,0,0,0,0]);
+const roundScoreList = ref([0, 0, 0, 0, 0, 0]);
 const finishPlayer = ref(0);
 const finishColor = ref("")
 const dragon = ref(false);
+
+const finishSetting = () => {
+    startSetting.value = true
+    if (playerNumber.value != 6) {
+        playersList.value.splice(playerNumber.value, 6 - playerNumber.value)
+        roundScoreList.value.splice(playerNumber.value, 6 - playerNumber.value)
+    }
+}
 
 const finishInit = () => {
     init.value = true;
@@ -43,10 +53,6 @@ const finishInit = () => {
     blueList.value = [["top:", blue.value]]
     yellowList.value = [["top:", yellow.value]]
     greenList.value = [["top:", green.value]]
-
-    if (playerNumber.value != 6) {
-        playersList.value.splice(playerNumber.value, 6 - playerNumber.value)
-    }
 }
 
 const add = (color, operator, num) => {
@@ -75,7 +81,9 @@ const deleteLast = (color) => {
     }
 }
 
-const reset = () => {
+//const reset
+
+const resetExceptTop = () => {
     blueList.value = [["top:", blueTop.value]]
     yellowList.value = [["top:", yellowTop.value]]
     greenList.value = [["top:", greenTop.value]]
@@ -205,7 +213,28 @@ const bomb = (color) => {
 
 <template>
     <h2>計算システム</h2>
-    <div class="Top" v-if="init == false">
+
+    <div class="player-setting" v-if="!startSetting && !init">
+        <h3>プレイヤーの設定</h3>
+        <label for="playerNumber">プレイヤーの人数を選択（３から６人）</label>
+        <select name="playerNumber" id="playerNumber" v-model.number="playerNumber">
+            <option value=3>3人</option>
+            <option value=4>4人</option>
+            <option value=5>5人</option>
+            <option value=6>6人</option>
+        </select>
+        <div class="player-name-setting">
+            <div>Player1:<input v-model="playersList[0]"></div>
+            <div>Player2:<input v-model="playersList[1]"></div>
+            <div>Player3:<input v-model="playersList[2]"></div>
+            <div v-if="playerNumber > 3">Player4:<input v-model="playersList[3]"></div>
+            <div v-if="playerNumber > 4">Player5:<input v-model="playersList[4]"></div>
+            <div v-if="playerNumber > 5">Player6:<input v-model="playersList[5]"></div>
+        </div>
+        <button @click="finishSetting">決定</button>
+    </div>
+
+    <div class="top" v-if="!init && startSetting">
         <h3>TOP CARD</h3>
         <div>
             <label for="blueTop">青</label>
@@ -236,31 +265,14 @@ const bomb = (color) => {
                 <option value=12>12</option>
             </select>
         </div>
-        <h3>プレイヤーの設定</h3>
-        <div class="player-setting">
-            <label for="playerNumber">プレイヤーの人数を選択（３から６人）</label>
-            <select name="playerNumber" id="playerNumber" v-model.number="playerNumber">
-                <option value=3>3人</option>
-                <option value=4>4人</option>
-                <option value=5>5人</option>
-                <option value=6>6人</option>
-            </select>
-            <div class="player-name-setting">
-                <div>Player1:<input v-model="playersList[0]"></div>
-                <div>Player2:<input v-model="playersList[1]"></div>
-                <div>Player3:<input v-model="playersList[2]"></div>
-                <div v-if="playerNumber > 3">Player4:<input v-model="playersList[3]"></div>
-                <div v-if="playerNumber > 4">Player5:<input v-model="playersList[4]"></div>
-                <div v-if="playerNumber > 5">Player6:<input v-model="playersList[5]"></div>
-            </div>
-        </div>
         <button @click="finishInit">決定</button>
     </div>
 
-    <div v-if="init == true && blueBomb == false && yellowBomb == false && greenBomb == false">
-        <button @click="init = false; blue = 0; yellow = 0; green = 0">トップカードからを設定しなおす</button>
+    <div class="reset-buttons" v-if="init == true && blueBomb == false && yellowBomb == false && greenBomb == false">
+        <button @clisck="startSetting = false; init= false; blue = 0; yellow = 0; green = 0">人数から設定しなおす</button>
+        <button @click="init = false; blue = 0; yellow = 0; green = 0">トップカードから設定しなおす</button>
         <br>
-        <button @click="reset">トップカード以外をはじめから入力する</button>
+        <button @click="resetExceptTop">トップカード以外をはじめから入力する</button>
     </div>
 
     <div class="score" v-if="init == true && blueBomb == false && yellowBomb == false && greenBomb == false">
@@ -268,18 +280,17 @@ const bomb = (color) => {
             <table border="1" class="score-table">
                 <thead>
                     <tr>
-                        <th class="table-content" v-for="player in playersList">{{player}}</th>
+                        <th class="table-content" v-for="player in playersList">{{ player }}</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td class="table-content" v-for="(pl, index) in playersList">{{roundScoreList[index]}}</td>
+                        <td class="table-content" v-for="(pl, index) in playersList">{{ roundScoreList[index] }}</td>
                     </tr>
                 </tbody>
             </table>
         </div>
         <div class="finish">
-            <button @click="finishOnePlayer(finishPlayer, finishColor, dragon)">上がる</button>
             <label for="finish-player">上がるプレイヤー</label>
             <select v-model.number="finishPlayer" name="finish-player">
                 <option v-for="(player, index) in playersList" :value="index">
@@ -294,6 +305,8 @@ const bomb = (color) => {
             </select>
             <label for="dragon">龍王</label>
             <input type="checkbox" v-model="dragon" name="dragon">
+            <br>
+            <button @click="finishOnePlayer(finishPlayer, finishColor, dragon)">上がる</button>
         </div>
     </div>
 
@@ -503,6 +516,10 @@ const bomb = (color) => {
 </template>
 
 <style>
+.reset-buttons {
+    text-align: right;
+}
+
 .colors {
     display: flex;
     justify-content: center;
