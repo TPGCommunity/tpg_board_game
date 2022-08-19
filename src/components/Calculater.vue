@@ -10,6 +10,7 @@ const round = ref(0)
 const startSetting = ref(false)
 const usePlayer = ref(true)
 const openPlayerSettingHelp = ref(false)
+const finishedPlayerList = ref([])
 
 const init = ref(false)
 
@@ -43,13 +44,18 @@ const finishPlayer = ref(0);
 const finishColor = ref("")
 const dragon = ref(false);
 
-const finishSetting = () => {
+const finishSetting = () => {//人数設定完了
+    blue.value = 0
+    yellow.value = 0
+    green.value = 0
     usePlayer.value = true
     startSetting.value = true
+    roundScoreList.value = [0,0,0,0,0,0]
     if (playerNumber.value != 6) {
         playersList.value.splice(playerNumber.value, 6 - playerNumber.value)
         roundScoreList.value.splice(playerNumber.value, 6 - playerNumber.value)
     }
+    finishedPlayerList.value = []
 }
 
 const finishInit = () => {
@@ -89,15 +95,32 @@ const deleteLast = (color) => {
     }
 }
 
-//const reset
+const restartRound = () => {//トップカードから
+    console.log("restart")
+    startSetting.value = true
+    init.value = false
+    blue.value = 0
+    yellow.value = 0
+    green.value = 0
+    roundScoreList.value = [0, 0, 0, 0, 0, 0]
+    if (playerNumber.value != 6) {
+        roundScoreList.value.splice(playerNumber.value, 6 - playerNumber.value)
+    }
+    finishedPlayerList.value = []
+}
 
-const resetExceptTop = () => {
+const resetExceptTop = () => {//カード足してくところから
     blueList.value = [["top:", blueTop.value]]
     yellowList.value = [["top:", yellowTop.value]]
     greenList.value = [["top:", greenTop.value]]
     blue.value = calc(blueList.value)
     yellow.value = calc(yellowList.value)
     green.value = calc(greenList.value)
+    roundScoreList.value = [0,0,0,0,0,0]
+    if (playerNumber.value != 6) {
+        roundScoreList.value.splice(playerNumber.value, 6 - playerNumber.value)
+    }
+    finishedPlayerList.value = []
 }
 
 const calc = (list) => {
@@ -117,7 +140,7 @@ const calc = (list) => {
 }
 
 const finishOnePlayer = (playerIndex, color, dragon) => {
-    console.log(playerIndex, color, dragon)
+    //TODO:playerIndexとcolorがnullだった時の対応
     var n = 0
     if (color == "blue") {
         n = blue.value
@@ -127,14 +150,21 @@ const finishOnePlayer = (playerIndex, color, dragon) => {
         n = green.value
     }
 
-    var score = 0
+    var score = 0//TODO:マイナスのときの対応
     if (dragon) {
         score = dragonCheck(n)
     } else {
         score = factorization(n)
-        console.log(score)
     }
     roundScoreList.value[playerIndex] = score
+
+    if (!(playerIndex in finishedPlayerList.value)) {
+        finishedPlayerList.value.push(playerIndex)
+    }
+
+    if (finishedPlayerList.value.length == playerNumber.value) {
+        showResult.value = true
+    }
 }
 
 const factorization = (n) => {
@@ -221,7 +251,8 @@ const bomb = (color) => {
 
 <template>
     <PlayerSettingHelp v-if="openPlayerSettingHelp" @closePlayerSettingHelp="openPlayerSettingHelp = false" />
-    <Result v-if="showResult" :oneRoundScore="roundScoreList" :playersList="playersList" :playerNumber="playerNumber" status="endOfRound" :round="round"/>
+    <Result v-show="showResult" @closeModalAndNext="showResult = false; round+=1; restartRound()" :oneRoundScore="roundScoreList" :playersList="playersList" :playerNumber="playerNumber"
+        status="endOfRound" :round="round" />
 
     <h2>計算システム</h2>
 
@@ -277,13 +308,13 @@ const bomb = (color) => {
                 <option value=12>12</option>
             </select>
         </div>
-        <button @click="startSetting=false">プレイヤー設定に戻る</button>
+        <button @click="startSetting = false">プレイヤー設定に戻る</button>
         <button @click="finishInit">決定</button>
     </div>
 
     <div class="reset-buttons" v-if="init == true && blueBomb == false && yellowBomb == false && greenBomb == false">
-        <button @click="startSetting = false; init = false; blue = 0; yellow = 0; green = 0">人数から設定しなおす</button>
-        <button @click="init = false; blue = 0; yellow = 0; green = 0">トップカードから設定しなおす</button>
+        <button @click="startSetting = false; init = false">人数から設定しなおす</button>
+        <button @click="restartRound">トップカードから設定しなおす</button>
         <br>
         <button @click="resetExceptTop">トップカード以外をはじめから入力する</button>
     </div>

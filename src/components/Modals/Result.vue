@@ -37,6 +37,7 @@ const add = () => {
     <div class="modal" @click.self="$emit('closeModal')">
       <div class="modal-window">
         <button @click="$emit('closeModal')" class="close" type="button"><span class="batsu"></span></button>
+        <!--TODO:xボタンを出すタイミング-->
         <div class="modal-content">
           <h2>得点</h2>
           <div class="round-score" v-if="status == 'endOfRound'">
@@ -83,6 +84,10 @@ const add = () => {
                 </tr>
               </tbody>
             </table>
+          </div>
+          <div>
+            <button v-if="round < 2" :disabled="!added" @click="$emit('closeModalAndNext'); added = false">つぎのラウンドへ</button>
+            <button v-if="round == 2" :disabled="!added">ゲームを終了する</button>
           </div>
         </div>
       </div>
