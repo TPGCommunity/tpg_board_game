@@ -182,7 +182,6 @@ const haveFinishedCheck = (finishPlayer) => {
 }
 
 const finishOnePlayer = (playerIndex, color, dragonLc) => {
-    //TODO:playerIndexとcolorがnullだった時の対応
     var n = 0
     if (color == "blue") {
         n = blue.value
@@ -192,7 +191,7 @@ const finishOnePlayer = (playerIndex, color, dragonLc) => {
         n = green.value
     }
 
-    var score = 0//TODO:マイナスのときの対応
+    var score = 0
     if (n <= 0) {
         score = 0
     } else if (dragonLc) {

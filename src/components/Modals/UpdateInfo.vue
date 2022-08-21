@@ -2,7 +2,7 @@
     <transition appear>
         <div class="modal" @click.self="$emit('closeModal')">
             <div class="modal-window">
-                <butoon @click="$emit('closeModal')" class="close" type="button"><span class="batsu"></span></butoon>
+                <button @click="$emit('closeModal')" class="close" type="button"><span class="batsu"></span></button>
                 <div class="modal-content">
                     <h2>UPDATE INFO</h2>
                     <div>
@@ -14,11 +14,24 @@
                                     <th>CONTENT</th>
                                 </tr>
                             </thead>
-                            <tbody><!--TODO:masterへのマージ前に書き足す。-->
+                            <tbody>
+                                <!--TODO:masterへのマージ前に書き足す。-->
+                                <!--コピペ用
+                                <tr>
+                                    <td>YYYY/MM/DD</td>
+                                    <td>タイトル（英語）</td>
+                                    <td>説明（日本語）</td>
+                                </tr>
+                            -->
                                 <tr>
                                     <td>2022/08/09</td>
-                                    <td>Add " UPDATE INFO" Page</td>
+                                    <td>「UPDATE INFO」ページを追加</td>
                                     <td>アップデート情報を告知するページを追加しました。</td>
+                                </tr>
+                                <tr>
+                                    <td>2022/08/21</td>
+                                    <td>得点管理機能を追加</td>
+                                    <td>３ラウンドの得点を合算できるようになりました。</td>
                                 </tr>
                             </tbody>
                         </table>
