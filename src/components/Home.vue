@@ -11,7 +11,7 @@ const openSideBar = () => {
 
 const updateInfoModal = ref(false);
 const openModal = (modalName) => {
-    if (modalName = 'update') {
+    if (modalName == 'update') {
         updateInfoModal.value = true
     }
 }
@@ -24,7 +24,6 @@ const openModal = (modalName) => {
         </div>
         <h1>Prime Dragon</h1>
     </div>
-
     <SideBar v-if="showSideBar" @update="openModal('update')" @closeSideBar="showSideBar = false" />
     <Calculater />
     <UpdateInfo v-if="updateInfoModal" @closeModal="updateInfoModal = false" />

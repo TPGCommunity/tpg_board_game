@@ -1,5 +1,19 @@
 <script setup>
 import { ref, computed } from "vue";
+import { primeBool } from './eratosutenesu.js';
+import PlayerSettingHelp from './Modals/PlayerSettingHelp.vue'
+import Result from './Modals/Result.vue'
+import FinishConfirm from "./Modals/FinishConfirm.vue";
+
+const showResult = ref(false)
+const round = ref(0)
+
+const startSetting = ref(false)
+const usePlayer = ref(true)
+const openPlayerSettingHelp = ref(false)
+const finishedPlayerList = ref([false, false, false, false, false, false])
+
+const init = ref(false)
 
 const blue = ref(0);
 const yellow = ref(0);
@@ -13,13 +27,11 @@ const blueCount = computed(() => "青:" + blue.value);
 const yellowCount = computed(() => "黄:" + yellow.value);
 const greenCount = computed(() => "緑:" + green.value);
 
-const init = ref(false)
-
 const blueList = ref([]);
 const yellowList = ref([]);
 const greenList = ref([]);
 
-const playerNumber = ref(0);
+const playerNumber = ref(3);
 const playersList = ref(["Player1", "Player2", "Player3", "Player4", "Player5", "Player6"]);
 
 const blueBomb = ref(false);
@@ -28,7 +40,26 @@ const greenBomb = ref(false);
 const bombList = ref([0, 0, 0]);
 const bombError = ref(false);
 
+const roundScoreList = ref([0, 0, 0, 0, 0, 0]);
+const finishPlayer = ref(0);
+const finishColor = ref("blue");
+const finishConfirm = ref(false);
+const dragon = ref(false);
 
+const finishSetting = () => {//人数設定完了
+    blue.value = 0
+    yellow.value = 0
+    green.value = 0
+    usePlayer.value = true
+    startSetting.value = true
+    roundScoreList.value = [0, 0, 0, 0, 0, 0]
+    finishedPlayerList.value = [false, false, false, false, false, false]
+    if (playerNumber.value != 6) {
+        playersList.value.splice(playerNumber.value, 6 - playerNumber.value)
+        roundScoreList.value.splice(playerNumber.value, 6 - playerNumber.value)
+        finishedPlayerList.value.splice(playerNumber.value, 6 - playerNumber.value)
+    }
+}
 
 const finishInit = () => {
     init.value = true;
@@ -39,6 +70,9 @@ const finishInit = () => {
     blueList.value = [["top:", blue.value]]
     yellowList.value = [["top:", yellow.value]]
     greenList.value = [["top:", green.value]]
+
+    finishPlayer.value = 0
+    finishColor.value = 'blue'
 }
 
 const add = (color, operator, num) => {
@@ -67,13 +101,36 @@ const deleteLast = (color) => {
     }
 }
 
-const reset = () => {
+const restartRound = () => {//トップカードから。次のラウンドに行くときも使用
+    console.log("restart")
+    startSetting.value = true
+    init.value = false
+    blue.value = 0
+    yellow.value = 0
+    green.value = 0
+    roundScoreList.value = [0, 0, 0, 0, 0, 0]
+    finishedPlayerList.value = [false, false, false, false, false, false]
+    if (playerNumber.value != 6) {
+        roundScoreList.value.splice(playerNumber.value, 6 - playerNumber.value)
+        finishedPlayerList.value.splice(playerNumber.value, 6 - playerNumber.value)
+    }
+
+}
+
+const resetExceptTop = () => {//カード足してくところから
     blueList.value = [["top:", blueTop.value]]
     yellowList.value = [["top:", yellowTop.value]]
     greenList.value = [["top:", greenTop.value]]
     blue.value = calc(blueList.value)
     yellow.value = calc(yellowList.value)
     green.value = calc(greenList.value)
+    roundScoreList.value = [0, 0, 0, 0, 0, 0]
+    finishedPlayerList.value = [false, false, false, false, false, false]
+    if (playerNumber.value != 6) {
+        roundScoreList.value.splice(playerNumber.value, 6 - playerNumber.value)
+        finishedPlayerList.value.splice(playerNumber.value, 6 - playerNumber.value)
+    }
+
 }
 
 const calc = (list) => {
@@ -88,6 +145,107 @@ const calc = (list) => {
         } else if (operator == "x") {
             n = n * num
         }
+    }
+    return n
+}
+
+const colorTranslate = (finishColor) => {
+    var colorJp = ""
+    if (finishColor == 'blue') {
+        colorJp = "青"
+    } else if (finishColor == 'yellow') {
+        colorJp = "黄"
+    } else if (finishColor == 'green') {
+        colorJp = "緑"
+    }
+    return colorJp
+}
+
+const colorToNumber = (finishColor) => {
+    var number = 0
+    if (finishColor == 'blue') {
+        number = blue.value
+    } else if (finishColor == 'yellow') {
+        number = yellow.value
+    } else if (finishColor == 'green') {
+        number = green.value
+    }
+    return number
+}
+
+const haveFinishedCheck = (finishPlayer) => {
+    var check = false
+    if (finishedPlayerList.value[finishPlayer]) {
+        check = true
+    }
+    return check
+}
+
+const finishOnePlayer = (playerIndex, color, dragonLc) => {
+    var n = 0
+    if (color == "blue") {
+        n = blue.value
+    } else if (color == 'yellow') {
+        n = yellow.value
+    } else if (color == 'green') {
+        n = green.value
+    }
+
+    var score = 0
+    if (n <= 0) {
+        score = 0
+    } else if (dragonLc) {
+        score = dragonCheck(n)
+    } else {
+        score = factorization(n)
+    }
+    roundScoreList.value[playerIndex] = score
+
+    finishedPlayerList.value[playerIndex] = true
+
+    if (!(finishedPlayerList.value.includes(false))) {
+        showResult.value = true
+    }
+    dragon.value = false
+}
+
+const factorization = (n) => {
+    var score = 0
+    if (n > 0) {
+        var p = 3
+        var l = []
+        while (n % 2 == 0) {
+            l.push(2)
+            n = n / 2
+        }
+        while (p <= Math.sqrt(n)) {
+            while (n % p == 0) {
+                l.push(p)
+                n = n / p
+            }
+            if (n == 1) {
+                break
+            }
+            p += 2
+            if (p % 5 == 0 && p > 5) {
+                p += 2
+            }
+        }
+        if (n != 1) {
+            l.push(n)
+        }
+
+        for (const pn of l) {
+            score += pn
+        }
+        return score
+    }
+
+}
+
+const dragonCheck = (n) => {
+    while (!primeBool[n]) {
+        n -= 1
     }
     return n
 }
@@ -134,8 +292,39 @@ const bomb = (color) => {
 </script>
 
 <template>
+    <PlayerSettingHelp v-if="openPlayerSettingHelp" @closePlayerSettingHelp="openPlayerSettingHelp = false" />
+    <FinishConfirm v-if="finishConfirm"
+        @confirm="finishConfirm = false; finishOnePlayer(finishPlayer, finishColor, dragon)" @cancel="finishConfirm = false"
+        :finishColor="colorTranslate(finishColor)" :finishPlayer="playersList[finishPlayer]"
+        :number="colorToNumber(finishColor)" :haveFinished="haveFinishedCheck(finishPlayer)" :dragon="dragon" />
+    <Result v-show="showResult" @closeModalAndNext="showResult = false; round += 1; restartRound()" @finishGame="startSetting=false; init=false; showResult=false"
+        :oneRoundScore="roundScoreList" :playersList="playersList" :playerNumber="playerNumber" status="endOfRound"
+        :round="round" />
+
     <h2>計算システム</h2>
-    <div class="Top" v-if="init == false">
+
+    <div class="player-setting" v-if="!startSetting && !init">
+        <h3>プレイヤーの設定<button class="help-button" @click="openPlayerSettingHelp = true">?</button></h3>
+        <label for="playerNumber">プレイヤーの人数を選択（３から６人）</label>
+        <select name="playerNumber" id="playerNumber" v-model.number="playerNumber">
+            <option value=3>3人</option>
+            <option value=4>4人</option>
+            <option value=5>5人</option>
+            <option value=6>6人</option>
+        </select>
+        <div class="player-name-setting">
+            <div>Player1:<input v-model="playersList[0]"></div>
+            <div>Player2:<input v-model="playersList[1]"></div>
+            <div>Player3:<input v-model="playersList[2]"></div>
+            <div v-if="playerNumber > 3">Player4:<input v-model="playersList[3]"></div>
+            <div v-if="playerNumber > 4">Player5:<input v-model="playersList[4]"></div>
+            <div v-if="playerNumber > 5">Player6:<input v-model="playersList[5]"></div>
+        </div>
+        <button @click="finishSetting">このメンバーでゲームを始める</button>
+        もしくは<button @click="usePlayer = false; startSetting = true">プレイヤーを設定しない</button>
+    </div>
+
+    <div class="top" v-if="!init && startSetting">
         <h3>TOP CARD</h3>
         <div>
             <label for="blueTop">青</label>
@@ -166,31 +355,51 @@ const bomb = (color) => {
                 <option value=12>12</option>
             </select>
         </div>
-        <h3>プレイヤーの設定</h3>
-        <div class="player-setting">
-            <label for="playerNumber">プレイヤーの人数を選択（３から６人）</label>
-            <select name="playerNumber" id="playerNumber" v-model.number="playerNumber">
-                <option value=3>3人</option>
-                <option value=4>4人</option>
-                <option value=5>5人</option>
-                <option value=6>6人</option>
-            </select>
-            <div class="player-name-setting">
-                <div>Player1:<input v-model="playersList[0]"></div>
-                <div>Player2:<input v-model="playersList[1]"></div>
-                <div>Player3:<input v-model="playersList[2]"></div>
-                <div v-if="playerNumber > 3">Player4:<input v-model="playersList[3]"></div>
-                <div v-if="playerNumber > 4">Player5:<input v-model="playersList[4]"></div>
-                <div v-if="playerNumber > 5">Player6:<input v-model="playersList[5]"></div>
-            </div>
-        </div>
+        <button @click="startSetting = false">プレイヤー設定に戻る</button>
         <button @click="finishInit">決定</button>
     </div>
 
-    <div v-if="init == true && blueBomb == false && yellowBomb == false && greenBomb == false">
-        <button @click="init = false; blue = 0; yellow = 0; green = 0">トップカードからを設定しなおす</button>
+    <div class="reset-buttons" v-if="init == true && blueBomb == false && yellowBomb == false && greenBomb == false">
+        <button @click="startSetting = false; init = false">人数から設定しなおす</button><!--TODO:処理を関数にして、プレイヤーリストを初期化-->
+        <button @click="restartRound">トップカードから設定しなおす</button>
         <br>
-        <button @click="reset">トップカード以外をはじめから入力する</button>
+        <button @click="resetExceptTop">トップカード以外をはじめから入力する</button>
+    </div>
+
+    <div class="score"
+        v-if="init == true && usePlayer && blueBomb == false && yellowBomb == false && greenBomb == false">
+        <div class="score-table-wrapper">
+            <table border="1" class="score-table"><!--TODO:名前の文字数が違っても幅を等しく-->
+                <thead>
+                    <tr>
+                        <th class="table-content" v-for="player in playersList">{{ player }}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="table-content" v-for="(pl, index) in playersList">{{ roundScoreList[index] }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="finish">
+            <label for="finish-player">上がるプレイヤー</label>
+            <select v-model.number="finishPlayer" name="finish-player">
+                <option v-for="(player, index) in playersList" :value="index">
+                    <div>{{ player }}</div>
+                </option>
+            </select>
+            <label for="finish-color">色</label>
+            <select v-model="finishColor" name="finish-color">
+                <option value="blue">青</option>
+                <option value="yellow">黄</option>
+                <option value="green">緑</option>
+            </select>
+            <label for="dragon">龍王</label>
+            <input type="checkbox" v-model="dragon" name="dragon">
+            <br>
+            <button @click="finishConfirm = true">奉納する</button>
+        </div>
     </div>
 
     <div class="calculater" v-if="init == true && blueBomb == false && yellowBomb == false && greenBomb == false">
@@ -399,6 +608,14 @@ const bomb = (color) => {
 </template>
 
 <style>
+.help-button {
+    vertical-align: middle;
+}
+
+.reset-buttons {
+    text-align: right;
+}
+
 .colors {
     display: flex;
     justify-content: center;
@@ -508,5 +725,16 @@ const bomb = (color) => {
     font-size: large;
     border: 1px solid black;
     border-radius: 5%;
+}
+
+.table-content {
+    background-color: white;
+    color: black;
+    text-align: center;
+}
+
+table {
+    margin-left: auto;
+    margin-right: auto;
 }
 </style>
