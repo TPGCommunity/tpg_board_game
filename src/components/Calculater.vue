@@ -3,6 +3,7 @@ import { ref, computed } from "vue";
 import { primeBool } from './eratosutenesu.js';
 import PlayerSettingHelp from './Modals/PlayerSettingHelp.vue'
 import Result from './Modals/Result.vue'
+import FinishConfirm from "./Modals/FinishConfirm.vue";
 
 const showResult = ref(false)
 const round = ref(0)
@@ -10,7 +11,7 @@ const round = ref(0)
 const startSetting = ref(false)
 const usePlayer = ref(true)
 const openPlayerSettingHelp = ref(false)
-const finishedPlayerList = ref([])
+const finishedPlayerList = ref([false, false, false, false, false, false])
 
 const init = ref(false)
 
@@ -41,7 +42,8 @@ const bombError = ref(false);
 
 const roundScoreList = ref([0, 0, 0, 0, 0, 0]);
 const finishPlayer = ref(0);
-const finishColor = ref("")
+const finishColor = ref("blue");
+const finishConfirm = ref(false);
 const dragon = ref(false);
 
 const finishSetting = () => {//人数設定完了
@@ -50,12 +52,13 @@ const finishSetting = () => {//人数設定完了
     green.value = 0
     usePlayer.value = true
     startSetting.value = true
-    roundScoreList.value = [0,0,0,0,0,0]
+    roundScoreList.value = [0, 0, 0, 0, 0, 0]
+    finishedPlayerList.value = [false, false, false, false, false, false]
     if (playerNumber.value != 6) {
         playersList.value.splice(playerNumber.value, 6 - playerNumber.value)
         roundScoreList.value.splice(playerNumber.value, 6 - playerNumber.value)
+        finishedPlayerList.value.splice(playerNumber.value, 6 - playerNumber.value)
     }
-    finishedPlayerList.value = []
 }
 
 const finishInit = () => {
@@ -67,6 +70,9 @@ const finishInit = () => {
     blueList.value = [["top:", blue.value]]
     yellowList.value = [["top:", yellow.value]]
     greenList.value = [["top:", green.value]]
+
+    finishPlayer.value = 0
+    finishColor.value = 'blue'
 }
 
 const add = (color, operator, num) => {
@@ -95,7 +101,7 @@ const deleteLast = (color) => {
     }
 }
 
-const restartRound = () => {//トップカードから
+const restartRound = () => {//トップカードから。次のラウンドに行くときも使用
     console.log("restart")
     startSetting.value = true
     init.value = false
@@ -103,10 +109,12 @@ const restartRound = () => {//トップカードから
     yellow.value = 0
     green.value = 0
     roundScoreList.value = [0, 0, 0, 0, 0, 0]
+    finishedPlayerList.value = [false, false, false, false, false, false]
     if (playerNumber.value != 6) {
         roundScoreList.value.splice(playerNumber.value, 6 - playerNumber.value)
+        finishedPlayerList.value.splice(playerNumber.value, 6 - playerNumber.value)
     }
-    finishedPlayerList.value = []
+
 }
 
 const resetExceptTop = () => {//カード足してくところから
@@ -116,11 +124,13 @@ const resetExceptTop = () => {//カード足してくところから
     blue.value = calc(blueList.value)
     yellow.value = calc(yellowList.value)
     green.value = calc(greenList.value)
-    roundScoreList.value = [0,0,0,0,0,0]
+    roundScoreList.value = [0, 0, 0, 0, 0, 0]
+    finishedPlayerList.value = [false, false, false, false, false, false]
     if (playerNumber.value != 6) {
         roundScoreList.value.splice(playerNumber.value, 6 - playerNumber.value)
+        finishedPlayerList.value.splice(playerNumber.value, 6 - playerNumber.value)
     }
-    finishedPlayerList.value = []
+
 }
 
 const calc = (list) => {
@@ -139,7 +149,39 @@ const calc = (list) => {
     return n
 }
 
-const finishOnePlayer = (playerIndex, color, dragon) => {
+const colorTranslate = (finishColor) => {
+    var colorJp = ""
+    if (finishColor == 'blue') {
+        colorJp = "青"
+    } else if (finishColor == 'yellow') {
+        colorJp = "黄"
+    } else if (finishColor == 'green') {
+        colorJp = "緑"
+    }
+    return colorJp
+}
+
+const colorToNumber = (finishColor) => {
+    var number = 0
+    if (finishColor == 'blue') {
+        number = blue.value
+    } else if (finishColor == 'yellow') {
+        number = yellow.value
+    } else if (finishColor == 'green') {
+        number = green.value
+    }
+    return number
+}
+
+const haveFinishedCheck = (finishPlayer) => {
+    var check = false
+    if (finishedPlayerList.value[finishPlayer]) {
+        check = true
+    }
+    return check
+}
+
+const finishOnePlayer = (playerIndex, color, dragonLc) => {
     //TODO:playerIndexとcolorがnullだった時の対応
     var n = 0
     if (color == "blue") {
@@ -151,20 +193,21 @@ const finishOnePlayer = (playerIndex, color, dragon) => {
     }
 
     var score = 0//TODO:マイナスのときの対応
-    if (dragon) {
+    if (n <= 0) {
+        score = 0
+    } else if (dragonLc) {
         score = dragonCheck(n)
     } else {
         score = factorization(n)
     }
     roundScoreList.value[playerIndex] = score
 
-    if (!(playerIndex in finishedPlayerList.value)) {
-        finishedPlayerList.value.push(playerIndex)
-    }
+    finishedPlayerList.value[playerIndex] = true
 
-    if (finishedPlayerList.value.length == playerNumber.value) {
+    if (!(finishedPlayerList.value.includes(false))) {
         showResult.value = true
     }
+    dragon.value = false
 }
 
 const factorization = (n) => {
@@ -251,8 +294,13 @@ const bomb = (color) => {
 
 <template>
     <PlayerSettingHelp v-if="openPlayerSettingHelp" @closePlayerSettingHelp="openPlayerSettingHelp = false" />
-    <Result v-show="showResult" @closeModalAndNext="showResult = false; round+=1; restartRound()" :oneRoundScore="roundScoreList" :playersList="playersList" :playerNumber="playerNumber"
-        status="endOfRound" :round="round" />
+    <FinishConfirm v-if="finishConfirm"
+        @confirm="finishConfirm = false; finishOnePlayer(finishPlayer, finishColor, dragon)" @cancel="finishConfirm = false"
+        :finishColor="colorTranslate(finishColor)" :finishPlayer="playersList[finishPlayer]"
+        :number="colorToNumber(finishColor)" :haveFinished="haveFinishedCheck(finishPlayer)" :dragon="dragon" />
+    <Result v-show="showResult" @closeModalAndNext="showResult = false; round += 1; restartRound()" @finishGame="startSetting=false; init=false; showResult=false"
+        :oneRoundScore="roundScoreList" :playersList="playersList" :playerNumber="playerNumber" status="endOfRound"
+        :round="round" />
 
     <h2>計算システム</h2>
 
@@ -313,7 +361,7 @@ const bomb = (color) => {
     </div>
 
     <div class="reset-buttons" v-if="init == true && blueBomb == false && yellowBomb == false && greenBomb == false">
-        <button @click="startSetting = false; init = false">人数から設定しなおす</button>
+        <button @click="startSetting = false; init = false">人数から設定しなおす</button><!--TODO:処理を関数にして、プレイヤーリストを初期化-->
         <button @click="restartRound">トップカードから設定しなおす</button>
         <br>
         <button @click="resetExceptTop">トップカード以外をはじめから入力する</button>
@@ -322,7 +370,7 @@ const bomb = (color) => {
     <div class="score"
         v-if="init == true && usePlayer && blueBomb == false && yellowBomb == false && greenBomb == false">
         <div class="score-table-wrapper">
-            <table border="1" class="score-table">
+            <table border="1" class="score-table"><!--TODO:名前の文字数が違っても幅を等しく-->
                 <thead>
                     <tr>
                         <th class="table-content" v-for="player in playersList">{{ player }}</th>
@@ -351,7 +399,7 @@ const bomb = (color) => {
             <label for="dragon">龍王</label>
             <input type="checkbox" v-model="dragon" name="dragon">
             <br>
-            <button @click="finishOnePlayer(finishPlayer, finishColor, dragon)">上がる</button>
+            <button @click="finishConfirm = true">奉納する</button>
         </div>
     </div>
 

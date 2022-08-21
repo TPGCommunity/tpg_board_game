@@ -18,8 +18,6 @@ const add = () => {
     totalScore.value.splice(props.playerNumber, 6 - props.playerNumber)
   }
   for (let i = 0; i < props.playerNumber; i += 1) {
-    console.log(props.playerNumber)
-    console.log(i)
     if (props.round == 0) {
       totalScore.value[i] = props.oneRoundScore[i]
       score.value[props.round][i] = props.oneRoundScore[i]
@@ -36,7 +34,7 @@ const add = () => {
   <transition appear>
     <div class="modal" @click.self="$emit('closeModal')">
       <div class="modal-window">
-        <button @click="$emit('closeModal')" class="close" type="button"><span class="batsu"></span></button>
+        <button @click="$emit('closeModal')" class="close" type="button" v-if="false"><span class="batsu"></span></button>
         <!--TODO:xボタンを出すタイミング-->
         <div class="modal-content">
           <h2>得点</h2>
@@ -87,7 +85,8 @@ const add = () => {
           </div>
           <div>
             <button v-if="round < 2" :disabled="!added" @click="$emit('closeModalAndNext'); added = false">つぎのラウンドへ</button>
-            <button v-if="round == 2" :disabled="!added">ゲームを終了する</button>
+            <!--<button v-if="round == 2" :disabled="!added" @click="$emmit('finishGame')">ゲームを終了する</button>-->
+            <a href="https://prime-dragon-tpcs.netlify.app">ゲームを終了する</a>
           </div>
         </div>
       </div>
