@@ -25,7 +25,7 @@ const props = defineProps({
         <div v-if="haveFinished" class="warning">{{ finishPlayer }}はすでに一度奉納しています。もう一度奉納しますか？得点が上書きされます。</div>
         <div>
           <button @click="$emit('cancel')">やめる</button>
-          <button @click="$emit('confirm')">決定</button>
+          <button @click="$emit('confirm')" class="decide-button">決定</button>
         </div>
       </div>
     </div>
@@ -101,5 +101,20 @@ const props = defineProps({
 
 .warning {
   color: red;
+  font-size: larger;
+}
+
+.decide-button {
+  background-color: rgb(247, 251, 113);
+  padding: 6px;
+  font-weight: bold;
+  border-radius: 5px;
+}
+
+.decide-button:hover {
+  background-color: rgb(205, 208, 114);
+  padding: 6px;
+  font-weight: bold;
+  border-radius: 5px;
 }
 </style>

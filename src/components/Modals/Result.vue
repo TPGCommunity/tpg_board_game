@@ -84,8 +84,8 @@ const add = () => {
             </table>
           </div>
           <div>
-            <button v-if="round < 2" :disabled="!added" @click="$emit('closeModalAndNext'); added = false">つぎのラウンドへ</button>
-            <!--<button v-if="round == 2" :disabled="!added" @click="$emmit('finishGame')">ゲームを終了する</button>-->
+            <button v-if="round < 2" :disabled="!added" @click="$emit('closeModalAndNext'); added = false" class="decide-button">つぎのラウンドへ</button>
+            <!--<button v-if="round == 2" :disabled="!added" @click="$emmit('finishGame')">ゲームを終了する</button>--><!--TODO:buttonにする-->
             <a href="https://prime-dragon-tpcs.netlify.app">ゲームを終了する</a>
           </div>
         </div>
@@ -176,5 +176,19 @@ thead,
 tfoot {
   background-color: rgb(87, 86, 86);
   color: #fff;
+}
+
+.decide-button {
+  background-color: rgb(247, 251, 113);
+  padding: 6px;
+  font-weight: bold;
+  border-radius: 5px;
+}
+
+.decide-button:hover {
+  background-color: rgb(205, 208, 114);
+  padding: 6px;
+  font-weight: bold;
+  border-radius: 5px;
 }
 </style>
