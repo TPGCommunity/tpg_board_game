@@ -52,7 +52,7 @@ const add = () => {
                 </tr>
               </tbody>
             </table>
-            <button @click="add" :disabled="added">合計得点に足す</button>
+            <button @click="add" :disabled="added" class="decide-button">合計得点に足す</button>
           </div>
           <div class="total-result">
             <h3>今までの得点</h3>
