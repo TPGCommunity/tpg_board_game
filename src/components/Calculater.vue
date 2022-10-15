@@ -541,7 +541,7 @@ const bomb = (color) => {
                     </option>
                     <option value=0>選ばない</option>
                 </select>
-                <button @click="bomb('blue')" class="dicide-button">逆鱗!</button>
+                <button @click="bomb('blue')" class="decide-button">逆鱗!</button>
                 <button @click="blueBomb = false; bombList = [0, 0, 0]">逆鱗をキャンセル</button>
                 <div v-if="bombError == true" class="bomb-error"><strong>同じカードを２回以上選んでいます！</strong></div>
             </div>
