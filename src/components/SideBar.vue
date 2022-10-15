@@ -7,12 +7,12 @@
             <div class="sidebar-wrapper">
                 <div class="contents">
                     <p @click="$emit('closeSideBar')"><span></span>MENU</p>
-                    <p @click="">ルール(工事中)</p>
-                    <p @click="">途中結果(工事中)</p>
-                    <p @click="$emit('update')">アップデート情報</p>
-                    <p><a href="https://takiplazagardener.wixsite.com/official" target="_blank"
+                    <p @click="">ルール(工事中)/Rule(not ready)</p>
+                    <p @click="">途中結果(工事中)/Progress(not ready)</p>
+                    <p @click="$emit('update')">アップデート情報/Update Info</p>
+                    <p><a href="https://www.tpgd.jp/" target="_blank"
                             rel="noopener noreferrer">AboutUs "TPG"（外部リンク）</a></p>
-                    <p><a href="https://mobile.twitter.com/ikura_hamu_pr" target="_blank" rel="noopener noreferrer">
+                    <p><a href="https://mobile.twitter.com/ikura_hamu" target="_blank" rel="noopener noreferrer">
                             Contact to the page creator (Twitter)</a></p>
                 </div>
             </div>

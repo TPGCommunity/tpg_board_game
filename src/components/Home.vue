@@ -22,7 +22,7 @@ const openModal = (modalName) => {
         <div @click="openSideBar" class="open-side-bar">
             <p><span></span>MENU</p>
         </div>
-        <h1>Prime Dragon</h1>
+        <h1>素数龍王 / Prime Dragon</h1>
     </div>
     <SideBar v-if="showSideBar" @update="openModal('update')" @closeSideBar="showSideBar = false" />
     <Calculater />

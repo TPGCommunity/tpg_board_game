@@ -34,12 +34,13 @@ const add = () => {
   <transition appear>
     <div class="modal" @click.self="$emit('closeModal')">
       <div class="modal-window">
-        <button @click="$emit('closeModal')" class="close" type="button" v-if="false"><span class="batsu"></span></button>
+        <button @click="$emit('closeModal')" class="close" type="button" v-if="false"><span
+            class="batsu"></span></button>
         <!--TODO:xボタンを出すタイミング-->
         <div class="modal-content">
           <h2>得点</h2>
           <div class="round-score" v-if="status == 'endOfRound'">
-            <h3>第{{ round + 1 }}ラウンドの得点</h3>
+            <h3>第{{ round + 1 }}ラウンドの得点/Round Score</h3>
             <table border="1" class="round-score-table">
               <thead>
                 <tr>
@@ -52,10 +53,11 @@ const add = () => {
                 </tr>
               </tbody>
             </table>
-            <button @click="add" :disabled="added" class="decide-button">合計得点に足す</button>
+            <button @click="add" :disabled="added" class="decide-button">合計得点に足す/Add</button>
           </div>
+          <div style="font-size: large;">↓  ↓  ↓</div>
           <div class="total-result">
-            <h3>今までの得点</h3>
+            <h3>今までの得点/Score</h3>
             <table border="1" class="total-result-table">
               <thead>
                 <tr>
@@ -77,16 +79,21 @@ const add = () => {
                   <td v-for="score3 in score[2]">{{ score3 }}</td>
                 </tr>
                 <tr>
-                  <th>合計</th>
+                  <th>合計/Sum</th>
                   <td v-for="total in totalScore">{{ total }}</td>
                 </tr>
               </tbody>
             </table>
           </div>
           <div>
-            <button v-if="round < 2" :disabled="!added" @click="$emit('closeModalAndNext'); added = false" class="decide-button">つぎのラウンドへ</button>
-            <!--<button v-if="round == 2" :disabled="!added" @click="$emmit('finishGame')">ゲームを終了する</button>--><!--TODO:buttonにする-->
-            <a href="https://prime-dragon-tpcs.netlify.app">ゲームを終了する</a>
+            <button v-if="round < 2" :disabled="!added" 
+            @click="$emit('closeModalAndNext'); added = false"
+            class="decide-button">
+              次のラウンド/Next Round
+            </button>
+            <!--<button v-if="round == 2" :disabled="!added" @click="$emmit('finishGame')">ゲームを終了する</button>-->
+            <!--TODO:buttonにする-->
+            <a href="https://prime-dragon-tpcs.netlify.app">ゲームを終了する/End</a>
           </div>
         </div>
       </div>

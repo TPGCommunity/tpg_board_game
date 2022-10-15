@@ -23,9 +23,9 @@ const blueTop = ref(7);
 const yellowTop = ref(7);
 const greenTop = ref(7);
 
-const blueCount = computed(() => "青:" + blue.value);
-const yellowCount = computed(() => "黄:" + yellow.value);
-const greenCount = computed(() => "緑:" + green.value);
+const blueCount = computed(() => "青/Blue:" + blue.value);
+const yellowCount = computed(() => "黄/Yellow:" + yellow.value);
+const greenCount = computed(() => "緑/Green:" + green.value);
 
 const blueList = ref([]);
 const yellowList = ref([]);
@@ -306,8 +306,12 @@ const bomb = (color) => {
 
     <div class="player-setting" v-if="!startSetting && !init">
         <h3>プレイヤーの設定<button class="help-button" @click="openPlayerSettingHelp = true">?</button></h3>
-        <label for="playerNumber">プレイヤーの人数を選択（３から６人）</label>
-        <select name="playerNumber" id="playerNumber" v-model.number="playerNumber">
+        <br>
+        <label for="playerNumber">
+            プレイヤーの人数を選択（３から６人）<br>
+            Choose players number (3 or more and 6 or less)
+        </label>
+        <select name="playerNumber" id="playerNumber" style="height: 2em" v-model.number="playerNumber">
             <option value=3>3人</option>
             <option value=4>4人</option>
             <option value=5>5人</option>
@@ -321,40 +325,42 @@ const bomb = (color) => {
             <div v-if="playerNumber > 4">Player5:<input v-model="playersList[4]"></div>
             <div v-if="playerNumber > 5">Player6:<input v-model="playersList[5]"></div>
         </div>
-        <button @click="usePlayer = false; startSetting = true">プレイヤーを設定しない</button>もしくは<button @click="finishSetting"
-            class="decide-button">このメンバーでゲームを始める</button>
+        <br>
+        <button @click="usePlayer = false; startSetting = true">プレイヤー設定無し<br>start without player setting</button>
+        <button @click="finishSetting" class="decide-button">ゲームを始める<br>START</button>
     </div>
 
     <div class="top" v-if="!init && startSetting">
         <h3>TOP CARD</h3>
+        <h4>トップカードを選んでください。/Choose top cards.</h4>
         <div>
-            <label for="blueTop">青</label>
-            <select name="blueTop" id="blueTop" v-model.number="blueTop">
+            <label for="blueTop" class="blue-bomb" style="font-size: 1.5em;">青/Blue</label>
+            <select name="blueTop" id="blueTop" style="height: 2em;" v-model.number="blueTop">
                 <option value=7>7</option>
                 <option value=8>8</option>
                 <option value=9>9</option>
                 <option value=10>10</option>
                 <option value=11>11</option>
                 <option value=12>12</option>
-            </select>--
-            <label for="yellowTop">黄</label>
-            <select name="yellowTop" id="yellowTop" v-model.number="yellowTop">
+            </select><br>
+            <label for="yellowTop" class="yellow-bomb" style="font-size: 1.5em;">黄/Yellow</label>
+            <select name="yellowTop" id="yellowTop" style="height: 2em;" v-model.number="yellowTop">
                 <option value=7>7</option>
                 <option value=8>8</option>
                 <option value=9>9</option>
                 <option value=10>10</option>
                 <option value=11>11</option>
                 <option value=12>12</option>
-            </select>--
-            <label for="greenTop">緑</label>
-            <select name="greenTop" id="greenTop" v-model.number="greenTop">
+            </select><br>
+            <label for="greenTop" class="green-bomb" style="font-size: 1.5em;">緑/Green</label>
+            <select name="greenTop" id="greenTop" style="height: 2em;" v-model.number="greenTop">
                 <option value=7>7</option>
                 <option value=8>8</option>
                 <option value=9>9</option>
                 <option value=10>10</option>
                 <option value=11>11</option>
                 <option value=12>12</option>
-            </select>
+            </select><br>
         </div>
         <button @click="startSetting = false">プレイヤー設定に戻る</button>
         <button @click="finishInit" class="decide-button">決定</button>
@@ -370,6 +376,7 @@ const bomb = (color) => {
 
     <div class="score"
         v-if="init == true && usePlayer && blueBomb == false && yellowBomb == false && greenBomb == false">
+        <div style="font-size:larger;">得点/Score</div>
         <div class="score-table-wrapper">
             <table border="1" class="score-table">
                 <!--TODO:名前の文字数が違っても幅を等しく-->
@@ -385,32 +392,37 @@ const bomb = (color) => {
                 </tbody>
             </table>
         </div>
+        <br>
         <div class="finish">
-            <label for="finish-player">上がるプレイヤー</label>
+            <div style="font-size:larger;">奉納/Check</div>
+            <label for="finish-player">プレイヤー/Player</label>
             <select v-model.number="finishPlayer" name="finish-player">
                 <option v-for="(player, index) in playersList" :value="index">
                     <div>{{ player }}</div>
                 </option>
             </select>
-            <label for="finish-color">色</label>
+            <label for="finish-color">色/Color</label>
             <select v-model="finishColor" name="finish-color">
-                <option value="blue" class="blue-button">青</option>
-                <option value="yellow" class="yellow-button">黄</option>
-                <option value="green" class="green-button">緑</option>
+                <option value="blue" class="blue-button">青/Blue</option>
+                <option value="yellow" class="yellow-button">黄/Yellow</option>
+                <option value="green" class="green-button">緑/Green</option>
             </select>
-            <label for="dragon">龍王</label>
+            <label for="dragon">龍王/Ryuo</label>
             <input type="checkbox" v-model="dragon" name="dragon">
-            <button @click="finishConfirm = true" class="decide-button">奉納する</button>
+            <button @click="finishConfirm = true" class="decide-button">奉納する/Confirm Check</button>
         </div>
     </div>
-
+    <br>
     <div class="calculater" v-if="init == true && blueBomb == false && yellowBomb == false && greenBomb == false">
+        <div style="font-size:larger">マーケット/Market</div>
         <div class="colors">
             <div class="blue">
                 <h2 class="blueCount">{{ blueCount }}</h2>
                 <br>
                 <div class="blue-buttons">
-                    <button @click="blueBomb = true" class="blue-button">逆鱗</button>
+                    <button @click="blueBomb = true; bombError=false" class="blue-button"
+                        style="width: 40%; font-size:medium;">
+                        逆鱗/Outrage</button>
                     <br><br>
                     <div class="blue-buttons-n">
                         <button @click="add('blue', '+', 1)" class="blue-button">+1</button>
@@ -433,7 +445,7 @@ const bomb = (color) => {
                     </div>
                     <br>
                     <div>
-                        <button @click="deleteLast('blue')" class="back">最後を消す</button>
+                        <button @click="deleteLast('blue')" class="back">最後を消す<br>Delete last</button>
                     </div>
                 </div>
                 <br>
@@ -445,7 +457,8 @@ const bomb = (color) => {
                 <h2 class="yellowCount">{{ yellowCount }}</h2>
                 <br>
                 <div class="yellow-buttons">
-                    <button @click="yellowBomb = true" class="yellow-button">逆鱗</button>
+                    <button @click="yellowBomb = true; bombError=false" class="yellow-button"
+                        style="width: 40%; font-size:medium;">逆鱗/Outrage</button>
                     <br><br>
                     <div class="yellow-buttons-n">
                         <button @click="add('yellow', '+', 1)" class="yellow-button">+1</button>
@@ -469,7 +482,7 @@ const bomb = (color) => {
                 </div>
                 <br>
                 <div>
-                    <button @click="deleteLast('yellow')">最後を消す</button>
+                    <button @click="deleteLast('yellow')">最後を消す<br>Delete last</button>
                 </div>
                 <br>
                 <div v-for="yellowCard in yellowList" class="yellow-list">
@@ -480,7 +493,8 @@ const bomb = (color) => {
                 <h2 class="greenCount">{{ greenCount }}</h2>
                 <br>
                 <div class="green-buttons">
-                    <button @click="greenBomb = true" class="green-button">逆鱗</button>
+                    <button @click="greenBomb = true; bombError=false" class="green-button"
+                        style="width: 40%; font-size:medium;">逆鱗/Outrage</button>
                     <br>
                     <br>
                     <div class="green-buttons-n">
@@ -504,7 +518,7 @@ const bomb = (color) => {
                     </div>
                     <br>
                     <div>
-                        <button @click="deleteLast('green')" class="back">最後を消す</button>
+                        <button @click="deleteLast('green')" class="back">最後を消す<br>Delete last</button>
                     </div>
                 </div>
                 <br>
@@ -517,75 +531,89 @@ const bomb = (color) => {
 
     <div class="bombs">
         <div class="blue-bomb" v-if="blueBomb == true">
-            <h3 class="blue-bomb-t">逆鱗　青</h3>
-            <div v-for="(blueCard, index) in blueList">
-                {{ index }}:{{ blueCard[0] }}{{ blueCard[1] }}
-            </div>
-            <div>取り除くカードの番号を2つまで選択（トップカードは選択できません）</div>
+            <h3 class="blue-bomb-t">逆鱗 青 / Outrage Blue</h3>
+            <div>取り除くカードの番号を2つまで選択（トップカードは選択できません）<br>
+                Select up to 2 cards to remove.(EXCEPT the top card)</div>
             <div>
                 <select name="blueBomb1" id="blueBomb1" v-model.number="bombList[0]">
                     <option v-for="(b, i) in blueList" v-bind:value="i">
                         <div v-if="i > 0">{{ i }}:{{ b[0] }}{{ b[1] }}</div>
                     </option>
-                    <option value=0>選ばない</option>
+                    <option value=0>no card</option>
                 </select>
                 <select name="blueBomb2" id="blueBomb2" v-model.number="bombList[1]">
                     <option v-for="(b, i) in blueList" v-bind:value="i">
                         <div v-if="i > 0">{{ i }}:{{ b[0] }}{{ b[1] }}</div>
                     </option>
-                    <option value=0>選ばない</option>
+                    <option value=0>no card</option>
                 </select>
-                <button @click="bomb('blue')" class="decide-button">逆鱗!</button>
-                <button @click="blueBomb = false; bombList = [0, 0, 0]">逆鱗をキャンセル</button>
-                <div v-if="bombError == true" class="bomb-error"><strong>同じカードを２回以上選んでいます！</strong></div>
+                <button @click="bomb('blue')" class="decide-button">決定/OK</button>
+                <button @click="blueBomb = false; bombList = [0, 0, 0]">取り消す/Cancel</button>
+                <div v-if="bombError == true" class="bomb-error">
+                    <strong>同じカードを２回選んでいます！<br>You selected the same two cards!</strong>
+                </div>
+            </div>
+            <br>
+            <div v-for="(blueCard, index) in blueList">
+                {{ index }}:{{ blueCard[0] }}{{ blueCard[1] }}
             </div>
         </div>
         <div class="yellow-bomb" v-if="yellowBomb == true">
-            <h2 class="yellow-bomb-t">逆鱗　黄</h2>
-            <div v-for="(yellowCard, index) in yellowList">
-                {{ index }}:{{ yellowCard[0] }}{{ yellowCard[1] }}
-            </div>
-            <div>取り除くカードの番号を2つまで選択（トップカードは選択できません）</div>
+            <h2 class="yellow-bomb-t">逆鱗 黄 / Outrage Yellow</h2>
+
+            <div>取り除くカードの番号を2つまで選択（トップカードは選択できません）<br>
+                Select up to 2 cards to remove.(EXCEPT the top card)</div>
             <div>
                 <select name="yellowBomb1" id="yellowBomb1" v-model.number="bombList[0]">
                     <option v-for="(b, i) in yellowList" v-bind:value="i">
                         <div v-if="i > 0">{{ i }}:{{ b[0] }}{{ b[1] }}</div>
                     </option>
-                    <option value=0>選ばない</option>
+                    <option value=0>no card</option>
                 </select>
                 <select name="yellowBomb2" id="yellowBomb2" v-model.number="bombList[1]">
                     <option v-for="(b, i) in yellowList" v-bind:value="i">
                         <div v-if="i > 0">{{ i }}:{{ b[0] }}{{ b[1] }}</div>
                     </option>
-                    <option value=0>選ばない</option>
+                    <option value=0>no card</option>
                 </select>
-                <button @click="bomb('yellow')" class="decide-button">逆鱗!</button>
-                <button @click="yellowBomb = false; bombList = [0, 0, 0]">逆鱗をキャンセル</button>
-                <div v-if="bombError == true" class="bomb-error"><strong>同じカードを２回選んでいます！</strong></div>
+                <button @click="bomb('yellow')" class="decide-button">決定/OK</button>
+                <button @click="yellowBomb = false; bombList = [0, 0, 0]">取り消し/Cancel</button>
+                <div v-if="bombError == true" class="bomb-error">
+                    <strong>同じカードを２回選んでいます！<br>You selected the same two cards!</strong>
+                </div>
+            </div>
+            <br>
+            <div v-for="(yellowCard, index) in yellowList">
+                {{ index }}:{{ yellowCard[0] }}{{ yellowCard[1] }}
             </div>
         </div>
         <div class="green-bomb" v-if="greenBomb == true">
-            <h2 class="green-bomb-t">逆鱗　緑</h2>
-            <div v-for="(greenCard, index) in greenList">
-                {{ index }}:{{ greenCard[0] }}{{ greenCard[1] }}
-            </div>
-            <div>取り除くカードの番号を２つまで選択（トップカードは選択できません）</div>
+            <h2 class="green-bomb-t">逆鱗 緑 / Outrage Green</h2>
+
+            <div>取り除くカードの番号を２つまで選択（トップカードは選択できません）<br>
+                Select up to 2 cards to remove.(EXCEPT the top card)</div>
             <div>
                 <select name="greenBomb1" id="greenBomb1" v-model.number="bombList[0]">
                     <option v-for="(b, i) in greenList" v-bind:value="i">
                         <div v-if="i > 0">{{ i }}:{{ b[0] }}{{ b[1] }}</div>
                     </option>
-                    <option value=0>選ばない</option>
+                    <option value=0>no card</option>
                 </select>
                 <select name="greenBomb2" id="greenBomb2" v-model.number="bombList[1]">
                     <option v-for="(b, i) in greenList" v-bind:value="i">
                         <div v-if="i > 0">{{ i }}:{{ b[0] }}{{ b[1] }}</div>
                     </option>
-                    <option value=0>選ばない</option>
+                    <option value=0>no card</option>
                 </select>
-                <button @click="bomb('green')" class="decide-button">逆鱗!</button>
-                <button @click="greenBomb = false; bombList = [0, 0, 0]">逆鱗をキャンセル</button>
-                <div v-if="bombError == true" class="bomb-error"><strong>同じカードを２回選んでいます！</strong></div>
+                <button @click="bomb('green')" class="decide-button">決定/OK</button>
+                <button @click="greenBomb = false; bombList = [0, 0, 0]">取り消し/Cancel</button>
+                <div v-if="bombError == true" class="bomb-error">
+                    <strong>同じカードを２回選んでいます！<br>You selected the same twocards!</strong>
+                </div>
+            </div>
+            <br>
+            <div v-for="(greenCard, index) in greenList">
+                {{ index }}:{{ greenCard[0] }}{{ greenCard[1] }}
             </div>
         </div>
     </div>
@@ -691,7 +719,9 @@ const bomb = (color) => {
     font-size: large;
     border: 1px solid black;
     border-radius: 5%;
+    text-align: center;
 }
+
 
 .yellow-bottons-n {
     display: flex;
