@@ -433,7 +433,7 @@ const bomb = (color) => {
                     </div>
                     <br>
                     <div>
-                        <button @click="deleteLast('blue')" class="back">ひとつ戻す</button>
+                        <button @click="deleteLast('blue')" class="back">最後を消す</button>
                     </div>
                 </div>
                 <br>
@@ -469,7 +469,7 @@ const bomb = (color) => {
                 </div>
                 <br>
                 <div>
-                    <button @click="deleteLast('yellow')">ひとつ戻す</button>
+                    <button @click="deleteLast('yellow')">最後を消す</button>
                 </div>
                 <br>
                 <div v-for="yellowCard in yellowList" class="yellow-list">
@@ -504,7 +504,7 @@ const bomb = (color) => {
                     </div>
                     <br>
                     <div>
-                        <button @click="deleteLast('green')" class="back">ひとつ戻す</button>
+                        <button @click="deleteLast('green')" class="back">最後を消す</button>
                     </div>
                 </div>
                 <br>
@@ -521,7 +521,7 @@ const bomb = (color) => {
             <div v-for="(blueCard, index) in blueList">
                 {{ index }}:{{ blueCard[0] }}{{ blueCard[1] }}
             </div>
-            <div>取り除くカードの番号を3つまで選択（トップカードは選択できません）</div>
+            <div>取り除くカードの番号を2つまで選択（トップカードは選択できません）</div>
             <div>
                 <select name="blueBomb1" id="blueBomb1" v-model.number="bombList[0]">
                     <option v-for="(b, i) in blueList" v-bind:value="i">
@@ -530,12 +530,6 @@ const bomb = (color) => {
                     <option value=0>選ばない</option>
                 </select>
                 <select name="blueBomb2" id="blueBomb2" v-model.number="bombList[1]">
-                    <option v-for="(b, i) in blueList" v-bind:value="i">
-                        <div v-if="i > 0">{{ i }}:{{ b[0] }}{{ b[1] }}</div>
-                    </option>
-                    <option value=0>選ばない</option>
-                </select>
-                <select name="blueBomb3" id="blueBomb3" v-model.number="bombList[2]">
                     <option v-for="(b, i) in blueList" v-bind:value="i">
                         <div v-if="i > 0">{{ i }}:{{ b[0] }}{{ b[1] }}</div>
                     </option>
@@ -551,7 +545,7 @@ const bomb = (color) => {
             <div v-for="(yellowCard, index) in yellowList">
                 {{ index }}:{{ yellowCard[0] }}{{ yellowCard[1] }}
             </div>
-            <div>取り除くカードの番号を3つまで選択（トップカードは選択できません）</div>
+            <div>取り除くカードの番号を2つまで選択（トップカードは選択できません）</div>
             <div>
                 <select name="yellowBomb1" id="yellowBomb1" v-model.number="bombList[0]">
                     <option v-for="(b, i) in yellowList" v-bind:value="i">
@@ -560,12 +554,6 @@ const bomb = (color) => {
                     <option value=0>選ばない</option>
                 </select>
                 <select name="yellowBomb2" id="yellowBomb2" v-model.number="bombList[1]">
-                    <option v-for="(b, i) in yellowList" v-bind:value="i">
-                        <div v-if="i > 0">{{ i }}:{{ b[0] }}{{ b[1] }}</div>
-                    </option>
-                    <option value=0>選ばない</option>
-                </select>
-                <select name="yellowBomb3" id="yellowBomb3" v-model.number="bombList[2]">
                     <option v-for="(b, i) in yellowList" v-bind:value="i">
                         <div v-if="i > 0">{{ i }}:{{ b[0] }}{{ b[1] }}</div>
                     </option>
@@ -590,12 +578,6 @@ const bomb = (color) => {
                     <option value=0>選ばない</option>
                 </select>
                 <select name="greenBomb2" id="greenBomb2" v-model.number="bombList[1]">
-                    <option v-for="(b, i) in greenList" v-bind:value="i">
-                        <div v-if="i > 0">{{ i }}:{{ b[0] }}{{ b[1] }}</div>
-                    </option>
-                    <option value=0>選ばない</option>
-                </select>
-                <select name="greenBomb3" id="greenBomb3" v-model.number="bombList[2]">
                     <option v-for="(b, i) in greenList" v-bind:value="i">
                         <div v-if="i > 0">{{ i }}:{{ b[0] }}{{ b[1] }}</div>
                     </option>
