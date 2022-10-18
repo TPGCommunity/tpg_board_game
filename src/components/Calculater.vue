@@ -395,21 +395,36 @@ const bomb = (color) => {
         <br>
         <div class="finish">
             <div style="font-size:larger;">奉納/Check</div>
-            <label for="finish-player">プレイヤー/Player</label>
-            <select v-model.number="finishPlayer" name="finish-player">
-                <option v-for="(player, index) in playersList" :value="index">
-                    <div>{{ player }}</div>
-                </option>
-            </select>
-            <label for="finish-color">色/Color</label>
-            <select v-model="finishColor" name="finish-color">
-                <option value="blue" class="blue-button">青/Blue</option>
-                <option value="yellow" class="yellow-button">黄/Yellow</option>
-                <option value="green" class="green-button">緑/Green</option>
-            </select>
-            <label for="dragon">龍王/Ryuo</label>
-            <input type="checkbox" v-model="dragon" name="dragon">
-            <button @click="finishConfirm = true" class="decide-button">奉納する/Confirm Check</button>
+            <table>
+                <thead>
+                    <tr>
+                        <td class="check-table-cont">プレイヤー/Player</td>
+                        <td class="check-table-cont">色/Color</td>
+                        <td class="check-table-cont">龍王/Ryuo</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="check-table-cont">
+                            <select v-model.number="finishPlayer" name="finish-player">
+                                <option v-for="(player, index) in playersList" :value="index">
+                                    <div>{{ player }}</div>
+                                </option>
+                            </select>
+                        </td>
+                        <td class="check-table-cont">
+                            <select v-model="finishColor" name="finish-color">
+                                <option value="blue" class="blue-button">青/Blue</option>
+                                <option value="yellow" class="yellow-button">黄/Yellow</option>
+                                <option value="green" class="green-button">緑/Green</option>
+                            </select>
+                        </td>
+                        <td class="check-table-cont">
+                            <input type="checkbox" v-model="dragon" name="dragon">
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </div>
     <br>
@@ -764,5 +779,9 @@ const bomb = (color) => {
 table {
     margin-left: auto;
     margin-right: auto;
+}
+
+.check-table-cont {
+    text-align: center;
 }
 </style>
