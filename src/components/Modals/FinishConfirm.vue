@@ -16,16 +16,17 @@ const props = defineProps({
       <div class="modal-window">
         <button @click="$emit('cancel')" class="close" type="button"><span class="batsu"></span></button>
         <div class="modal-content">
-          <h2>奉納</h2>
-          <li>奉納するプレイヤー:{{ finishPlayer }}</li>
-          <li>奉納する数の色:{{ finishColor }}</li>
-          <li>{{ finishColor }}の数字（得点ではありません）:{{ number }}</li>
-          <li v-if="dragon" class="dragon">龍王</li>
+          <h2>奉納/Check</h2>
+          <li>プレイヤー/Player:{{ finishPlayer }}</li>
+          <li>色/Color:{{ finishColor }}</li>
+          <li>{{ finishColor }}の数字（得点ではありません）/Number(NOT Score):{{ number }}</li>
+          <li v-if="dragon" class="dragon">龍王/Ryuo</li>
         </div>
-        <div v-if="haveFinished" class="warning">{{ finishPlayer }}はすでに一度奉納しています。もう一度奉納しますか？得点が上書きされます。</div>
+        <div v-if="haveFinished" class="warning">{{ finishPlayer }}はすでに一度奉納しています。もう一度奉納しますか？得点が上書きされます。<br>
+          {{finishPlayer}} has already "checked" in this round. Do you really want to "check" one more time?<br>The score will be overwrited.</div>
         <div>
-          <button @click="$emit('cancel')">やめる</button>
-          <button @click="$emit('confirm')">決定</button>
+          <button @click="$emit('cancel')">やめる/Cancel</button>
+          <button @click="$emit('confirm')" class="decide-button">決定/OK</button>
         </div>
       </div>
     </div>
@@ -101,5 +102,20 @@ const props = defineProps({
 
 .warning {
   color: red;
+  font-size: larger;
+}
+
+.decide-button {
+  background-color: rgb(247, 251, 113);
+  padding: 6px;
+  font-weight: bold;
+  border-radius: 5px;
+}
+
+.decide-button:hover {
+  background-color: rgb(205, 208, 114);
+  padding: 6px;
+  font-weight: bold;
+  border-radius: 5px;
 }
 </style>
