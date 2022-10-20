@@ -20,7 +20,7 @@ const props = defineProps({
           <li>プレイヤー/Player:{{ finishPlayer }}</li>
           <li>色/Color:{{ finishColor }}</li>
           <li>{{ finishColor }}の数字（得点ではありません）/Number(NOT Score):{{ number }}</li>
-          <li v-if="dragon" class="dragon">龍王/Ryuo</li>
+          <li v-if="dragon" :class="{dragon:'dragon'}">龍王/Ryuo</li>
         </div>
         <div v-if="haveFinished" class="warning">{{ finishPlayer }}はすでに一度奉納しています。もう一度奉納しますか？得点が上書きされます。<br>
           {{finishPlayer}} has already "checked" in this round. Do you really want to "check" one more time?<br>The score will be overwrited.</div>
@@ -117,5 +117,9 @@ const props = defineProps({
   padding: 6px;
   font-weight: bold;
   border-radius: 5px;
+}
+
+.dragon {
+  color: red;
 }
 </style>

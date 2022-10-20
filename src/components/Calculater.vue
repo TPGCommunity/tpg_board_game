@@ -413,8 +413,7 @@ const bomb = (color) => {
                             </select>
                         </td>
                         <td class="check-table-cont" :style="{background: finishColor}">
-                            <select v-model="finishColor" name="finish-color"
-                                >
+                            <select v-model="finishColor" name="finish-color">
                                 <option value="blue" class="blue-button">青/Blue</option>
                                 <option value="yellow" class="yellow-button">黄/Yellow</option>
                                 <option value="green" class="green-button">緑/Green</option>
@@ -426,6 +425,7 @@ const bomb = (color) => {
                     </tr>
                 </tbody>
             </table>
+            <button @click="finishConfirm=true" class="decide-button">奉納/Check</button>
         </div>
     </div>
     <br>
